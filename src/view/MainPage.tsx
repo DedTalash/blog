@@ -35,7 +35,7 @@ export class MainPage extends React.Component<any, State>
     {
         return <React.Fragment>
             <h1>Blog</h1>
-            {this.state.posts.map(post => <PostView post={post} />)}
+            {this.state.posts.map(post => <PostView post={post} key={post.url} />)}
             {this.state.processing && <div className="line">
                 <LinearProgress color="secondary"/>
             </div>}
