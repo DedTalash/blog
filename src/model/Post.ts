@@ -16,34 +16,16 @@ interface Source {
 
 export default class Post
 {
-    author: string;
-    content: string;
-    description: string;
-    publishedAt: Date;
-    source: Source;
-    title: string;
-    url: string;
-    urlToImage: string;
-
     constructor (
-        author: string,
-        content: string,
-        description: string,
-        publishedAt: Date,
-        source: Source,
-        title: string,
-        url: string,
-        urlToImage: string
-    ) {
-        this.author = author;
-        this.content = content;
-        this.description = description;
-        this.publishedAt = publishedAt;
-        this.source = source;
-        this.title = title;
-        this.url = url;
-        this.urlToImage = urlToImage;
-    }
+        public author: string,
+        public content: string,
+        public description: string,
+        public publishedAt: Date,
+        public source: Source,
+        public title: string,
+        public url: string,
+        public urlToImage: string
+    ) {}
 
     public static createFromData(data: PostInterface): Post {
         return new Post(

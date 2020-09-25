@@ -1,9 +1,8 @@
 import React from "react";
 import Post from "../model/Post";
 import {Formatter} from "../components/Formatter";
-import {Card, CardContent, CardMedia, IconButton, Typography, useTheme} from "@material-ui/core";
+import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {PlayArrow, SkipNext, SkipPrevious} from "@material-ui/icons";
 
 interface Props {
     post: Post

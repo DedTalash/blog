@@ -1,7 +1,7 @@
 import React from "react";
 import {LinearProgress} from "@material-ui/core";
 import "./main.css";
-import {PostsCollection} from "../components/PostsCollection";
+import {PostsService} from "../components/PostsService";
 import Post from "../model/Post";
 import PostView from "./PostView";
 
@@ -12,7 +12,7 @@ interface State {
 
 export class MainPage extends React.Component<any, State>
 {
-    private collection: PostsCollection
+    private collection: PostsService
 
     constructor(props: any)
     {
@@ -21,7 +21,7 @@ export class MainPage extends React.Component<any, State>
             posts: [],
             processing: false
         }
-        this.collection = new PostsCollection();
+        this.collection = new PostsService();
     }
 
     componentDidMount() {

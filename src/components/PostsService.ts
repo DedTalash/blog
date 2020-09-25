@@ -1,16 +1,11 @@
 import axios from 'axios'
 import Post, {PostInterface} from "../model/Post";
 
-export class PostsCollection
+export class PostsService
 {
     private readonly KEY = '8c98e299f73540a694ea5dfba8bf3a1b'
 
     private posts: Post[] = []
-
-    getPosts()
-    {
-        return this.posts;
-    }
 
     loadPosts(callback: Function)
     {
@@ -22,5 +17,4 @@ export class PostsCollection
                 callback(this.posts)
             })
     }
-
 }
