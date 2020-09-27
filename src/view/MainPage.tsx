@@ -1,44 +1,22 @@
 import React from "react";
 import {LinearProgress} from "@material-ui/core";
 import "./main.css";
-import {PostsService} from "../components/PostsService";
-import Post from "../model/Post";
 import PostView from "./PostView";
+import {connect} from "react-redux";
+import {BlogReducers} from "../redux/store";
+import Post from "../model/Post";
 
-interface State {
-    posts: Array<Post>,
-    processing: boolean
-}
-
-export class MainPage extends React.Component<any, State>
+const MainPage = (props: {posts: Post[], processing: boolean}) =>
 {
-    private collection: PostsService
-
-    constructor(props: any)
-    {
-        super(props);
-        this.state = {
-            posts: [],
-            processing: false
-        }
-        this.collection = new PostsService();
-    }
-
-    componentDidMount() {
-        this.setState({processing:true});
-        this.collection.loadPosts((data: Post[]) => {
-            this.setState({processing: false, posts: data})
-        });
-    }
-
-    render()
-    {
-        return <React.Fragment>
-            <h1>Blog</h1>
-            {this.state.posts.map(post => <PostView post={post} key={post.url} />)}
-            {this.state.processing && <div className="line">
-                <LinearProgress color="secondary"/>
-            </div>}
-        </React.Fragment>;
-    }
+    return <React.Fragment>
+        <h1>Blog</h1>
+        {props.posts.map(post => <PostView post={post} key={post.url}/>)}
+        {props.processing && <div className="line">
+            <LinearProgress color="secondary"/>
+        </div>}
+    </React.Fragment>;
 }
+
+export default connect(
+    ({posts, processing}: BlogReducers) => ({posts: [...posts], processing}),
+)(MainPage);

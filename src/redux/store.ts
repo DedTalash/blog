@@ -3,15 +3,18 @@ import {PostsService} from "../components/PostsService";
 import Post from "../model/Post";
 import postsReducer from "./postsReducer";
 import postsServiceReducer from "./postsServiceReducer";
+import postsProcessingReducer from "./postsProcessingReducer";
 
-type BlogReducers = {
+export type BlogReducers = {
     posts: Post[],
-    postsService: PostsService|null
+    postsService: PostsService|null,
+    processing: boolean
 }
 
 const reducers = combineReducers<BlogReducers>({
     posts: postsReducer,
-    postsService: postsServiceReducer
+    postsService: postsServiceReducer,
+    processing: postsProcessingReducer
 });
 
 export default createStore(reducers);

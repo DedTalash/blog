@@ -1,8 +1,7 @@
 import React from 'react';
-import {MainPage} from "./view/MainPage";
+import MainPage from "./view/MainPage";
 import {Container} from "@material-ui/core";
-import {connect, Provider} from "react-redux";
-import store from "./redux/store";
+import {connect} from "react-redux";
 import {setPostsService} from "./redux/actions";
 import {PostsService} from "./components/PostsService";
 
@@ -12,17 +11,15 @@ type Props = {
 
 function App(props: Props)
 {
-   const service = new PostsService();
-   props.setPostsService(service);
+    const service = new PostsService();
+    props.setPostsService(service);
 
     return (
-        <Provider store={store}>
-            <React.Fragment>
-                <Container className="container" maxWidth="md">
-                    <MainPage/>
-                </Container>
-            </React.Fragment>
-        </Provider>
+        <React.Fragment>
+            <Container className="container" maxWidth="md">
+                <MainPage/>
+            </Container>
+        </React.Fragment>
     );
 }
 
