@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {BlogReducers} from "../redux/store";
 import Post from "../model/Post";
 
-const MainPage = (props: {posts: Post[], processing: boolean}) =>
+const MainPage = (props: {posts: Post[], processing: boolean, width?:number}) =>
 {
     return <React.Fragment>
         <h1>Blog</h1>

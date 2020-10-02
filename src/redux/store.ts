@@ -4,17 +4,20 @@ import Post from "../model/Post";
 import postsReducer from "./postsReducer";
 import postsServiceReducer from "./postsServiceReducer";
 import postsProcessingReducer from "./postsProcessingReducer";
+import {widthReducer} from "./widthReducer";
 
 export type BlogReducers = {
     posts: Post[],
     postsService: PostsService|null,
-    processing: boolean
+    processing: boolean,
+    width: number
 }
 
 const reducers = combineReducers<BlogReducers>({
     posts: postsReducer,
     postsService: postsServiceReducer,
-    processing: postsProcessingReducer
+    processing: postsProcessingReducer,
+    width: widthReducer
 });
 
 export default createStore(reducers);
