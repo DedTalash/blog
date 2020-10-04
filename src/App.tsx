@@ -1,35 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import MainPage from "./view/MainPage";
-import {Container} from "@material-ui/core";
-import {connect, useDispatch} from "react-redux";
-import {setPostsService, widthAction} from "./redux/actions";
-import {PostsService} from "./components/PostsService";
+import postService from "./components/PostsService";
 
-type Props = {
-    setPostsService(service: PostsService): void;
-    // widthAction(innerWidth: number): void;
-}
-
-function App(props: Props)
+export default function App()
 {
-    const service = new PostsService();
-    props.setPostsService(service);
-    // props.widthAction(window.innerWidth);
-
-    const dispatch = useDispatch();
-    useEffect(() => window.addEventListener('resize',
-        () => dispatch(widthAction(window.innerWidth))), [dispatch])
+    postService.loadPosts();
 
     return (
-        <React.Fragment>
-            <Container className="container" maxWidth="md">
-                <MainPage />
-            </Container>
-        </React.Fragment>
+        <MainPage />
     );
 }
-
-export default connect(
-    null,
-    {setPostsService}
-)(App);

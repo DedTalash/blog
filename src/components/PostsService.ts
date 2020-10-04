@@ -3,13 +3,9 @@ import Post, {PostInterface} from "../model/Post";
 import {useDispatch} from "react-redux";
 import {setPosts, setPostsProcessing} from "../redux/actions";
 
-export class PostsService
+class PostsServiceRest
 {
     private readonly KEY = '8c98e299f73540a694ea5dfba8bf3a1b';
-
-    constructor() {
-        this.loadPosts();
-    }
 
     loadPosts()
     {
@@ -26,3 +22,6 @@ export class PostsService
             })
     }
 }
+
+const postService = new PostsServiceRest();
+export default postService;
