@@ -75,24 +75,26 @@ const MainPage = (props: {posts: Post[], processing: boolean, width?:number}) =>
     const classes = useStyles();
     return <React.Fragment>
         <CssBaseline />
-        <AppBar >
-            <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                    Blog
-                </Typography>
-                <Button color="inherit">Login</Button>
-            </Toolbar>
-        </AppBar>
+
         <Toolbar id="back-to-top-anchor" />
         <Container>
+            <AppBar position="sticky">
+                <Toolbar >
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        Blog
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
             {props.posts.map(post => <PostView post={post} key={post.url}/>)}
             {props.processing && <div className="line">
                 <LinearProgress color="secondary"/>
             </div>}
         </Container>
+
         <ScrollTop {...props}>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
                 <KeyboardArrowUpIcon />

@@ -30,59 +30,72 @@ const useStyles =  makeStyles((theme) => {
     console.log([theme.breakpoints.down('sm')])
     console.log([theme.breakpoints.up('sm')])
     return ({
+
             root: {
-                display: 'flex'
+                display: 'flex',
+
             },
             blogPost: {
-                display: 'flex',
-                [theme.breakpoints.down('xs')]: {
-                    display: 'block',
-                },
                 [theme.breakpoints.down('sm')]:{
                     display: 'block',
                 },
+                display: 'flex',
+                marginTop: '10px',
             },
             cover: {
                 flex: '0 0 200px',
                 height: "110px",
                 paddingTop: '25px',
                 backgroundSize: 'contain',
-                [theme.breakpoints.down('xs')]: {
-                    display:'block',
-                    height: '171px',
-                    width: '100%',
-                    // objectFit:'cover',
-                    backgroundSize: 'contain'
-                },
+                // paddingTop: '25px',
+                // backgroundSize: 'contain',
+                // [theme.breakpoints.up('xs')]: {
+                //     display:'block',
+                //     height: '171px',
+                //     width: '100%',
+                //     // objectFit:'cover',
+                //     backgroundSize: 'contain'
+                // },
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                     width: '100%',
                     height: '250px',
                     backgroundSize: 'cover'
                 },
-                [theme.breakpoints.down('md')]:{
-                    flex: '0 0 273px',
-                    paddingTop: '65px',
-                    backgroundSize: 'contain'
-                }
+                [theme.breakpoints.up('sm')]: {
+                    display: 'block',
+                    width: '100%',
+                    height: '250px',
+                    backgroundSize: 'cover'
+                },
+                [theme.breakpoints.up('md')]:{
+                    display: 'block',
+                    backgroundSize: 'cover'
+                },
+                // [theme.breakpoints.down('lg')]:{
+                // flex: '0 0 200px',
+                // height: "110px",
+                // paddingTop: '25px',
+                // backgroundSize: 'contain'
+                // }
             },
             title: {
-                fontSize: '18px',
-                [theme.breakpoints.down('md')]: {fontSize: '16px', color: 'blue'},
-                [theme.breakpoints.down('sm')]: {fontSize: '16px', color: 'green'},
-                [theme.breakpoints.down('xs')]: {fontSize: '16px', color: 'red'},
+                fontSize: '20px',
+                // [theme.breakpoints.up('md')]: {fontSize: '16px', color: 'blue'},
+                // [theme.breakpoints.up('sm')]: {fontSize: '16px', color: 'green'},
+                // [theme.breakpoints.up('xs')]: {fontSize: '16px', color: 'red'},
 
             },
             bodyPost: {
-                fontSize: '16px',
-                [theme.breakpoints.down('sm')]: {fontSize: '14px', color:'red'},
-                [theme.breakpoints.down('md')]: {fontSize: '14px', color: 'blue'},
-                [theme.breakpoints.down('xs')]: {fontSize: '14px', color: 'red'}
+                fontSize: '18px',
+                // [theme.breakpoints.up('sm')]: {fontSize: '14px', color:'red'},
+                // [theme.breakpoints.up('md')]: {fontSize: '14px', color: 'blue'},
+                // [theme.breakpoints.up('xs')]: {fontSize: '14px', color: 'red'}
             },
             date: {
-                [theme.breakpoints.down('sm')]: {fontSize: '10px', color:'red'},
-                [theme.breakpoints.down('md')]: {fontSize: '10px', color: 'blue'},
-                [theme.breakpoints.down('xs')]: {fontSize: '10px', color: 'red'},
+                // [theme.breakpoints.up('sm')]: {fontSize: '10px', color:'red'},
+                // [theme.breakpoints.up('md')]: {fontSize: '10px', color: 'blue'},
+                // [theme.breakpoints.up('xs')]: {fontSize: '10px', color: 'red'},
             }
         }
     );
