@@ -33,29 +33,22 @@ const useStyles =  makeStyles((theme) => {
 
             root: {
                 display: 'flex',
-
             },
+
             blogPost: {
                 [theme.breakpoints.down('sm')]:{
                     display: 'block',
                 },
                 display: 'flex',
-                marginTop: '10px',
+                marginTop: '20px',
             },
             cover: {
+
                 flex: '0 0 200px',
                 height: "110px",
                 paddingTop: '25px',
                 backgroundSize: 'contain',
-                // paddingTop: '25px',
-                // backgroundSize: 'contain',
-                // [theme.breakpoints.up('xs')]: {
-                //     display:'block',
-                //     height: '171px',
-                //     width: '100%',
-                //     // objectFit:'cover',
-                //     backgroundSize: 'contain'
-                // },
+
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                     width: '100%',
@@ -65,38 +58,21 @@ const useStyles =  makeStyles((theme) => {
                 [theme.breakpoints.up('sm')]: {
                     display: 'block',
                     width: '100%',
-                    height: '250px',
+                    height: '283px',
                     backgroundSize: 'cover'
                 },
                 [theme.breakpoints.up('md')]:{
                     display: 'block',
                     backgroundSize: 'cover'
                 },
-                // [theme.breakpoints.down('lg')]:{
-                // flex: '0 0 200px',
-                // height: "110px",
-                // paddingTop: '25px',
-                // backgroundSize: 'contain'
-                // }
             },
             title: {
                 fontSize: '20px',
-                // [theme.breakpoints.up('md')]: {fontSize: '16px', color: 'blue'},
-                // [theme.breakpoints.up('sm')]: {fontSize: '16px', color: 'green'},
-                // [theme.breakpoints.up('xs')]: {fontSize: '16px', color: 'red'},
-
             },
             bodyPost: {
                 fontSize: '18px',
-                // [theme.breakpoints.up('sm')]: {fontSize: '14px', color:'red'},
-                // [theme.breakpoints.up('md')]: {fontSize: '14px', color: 'blue'},
-                // [theme.breakpoints.up('xs')]: {fontSize: '14px', color: 'red'}
+                margin: '1em'
             },
-            date: {
-                // [theme.breakpoints.up('sm')]: {fontSize: '10px', color:'red'},
-                // [theme.breakpoints.up('md')]: {fontSize: '10px', color: 'blue'},
-                // [theme.breakpoints.up('xs')]: {fontSize: '10px', color: 'red'},
-            }
         }
     );
 });
@@ -121,7 +97,7 @@ export default function PostView(props: Props) {
                 <Typography className={classes.bodyPost} variant="body1" color="textSecondary" gutterBottom={true}>
                     {props.post.description}
                 </Typography>
-                <Typography className={classes.date} variant={"body2"} color="textSecondary" align={"right"}>
+                <Typography  variant={"body2"} color="textSecondary" align={"right"}>
                     {Formatter.toDate(props.post.publishedAt)}
                 </Typography>
             </CardContent>

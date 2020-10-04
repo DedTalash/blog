@@ -12,8 +12,6 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import classes from "*.module.css";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import PropTypes from 'prop-types';
 
@@ -29,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
-
+    // headerContainer: {
+    //     padding:'0px',
+    // }
 }));
 
 function ScrollTop(props:any) {
@@ -75,20 +75,21 @@ const MainPage = (props: {posts: Post[], processing: boolean, width?:number}) =>
     const classes = useStyles();
     return <React.Fragment>
         <CssBaseline />
-
-        <Toolbar id="back-to-top-anchor" />
-        <Container>
-            <AppBar position="sticky">
-                <Toolbar >
+        <AppBar position="sticky">
+            <Container>
+                <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         Blog
                     </Typography>
                     <Button color="inherit">Login</Button>
+
                 </Toolbar>
-            </AppBar>
+            </Container>
+        </AppBar>
+        <Container>
             {props.posts.map(post => <PostView post={post} key={post.url}/>)}
             {props.processing && <div className="line">
                 <LinearProgress color="secondary"/>
@@ -100,12 +101,6 @@ const MainPage = (props: {posts: Post[], processing: boolean, width?:number}) =>
                 <KeyboardArrowUpIcon />
             </Fab>
         </ScrollTop>
-        {/*<div className={classes.root}>*/}
-        {/*    <AppBar position="static"  >*/}
-                       {/*    </AppBar>*/}
-        {/*</div>*/}
-
-
     </React.Fragment>;
 }
 
