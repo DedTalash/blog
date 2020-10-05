@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Post from "../model/Post";
 import {Formatter} from "../components/Formatter";
 import {Card, CardContent, CardMedia, createMuiTheme, Typography} from "@material-ui/core";
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => {
 
 export default function PostView(props: Props) {
 	const classes = useStyles();
+
 
 	return (
 		<Card className={classes.blogPost}>

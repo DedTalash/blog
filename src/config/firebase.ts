@@ -1,15 +1,15 @@
 import firebase from "firebase";
-
+import 'firebase/auth'
 const firebaseConfig = {
-	apiKey: "AIzaSyDlicUhhLBsKotRYSQ2rsaJ9NnX83RkD0o",
-	authDomain: "myproject-33aee.firebaseapp.com",
-	databaseURL: "https://myproject-33aee.firebaseio.com",
-	projectId: "myproject-33aee",
-	storageBucket: "myproject-33aee.appspot.com",
-	messagingSenderId: "60608872832",
-	appId: "1:60608872832:web:f5ef0949560edadf840165"
+	apiKey: "AIzaSyC2_njUyrAwAauPZ8yAzG09zaM6tnKIJkQ",
+	authDomain: "blog-7ceac.firebaseapp.com",
+	databaseURL: "https://blog-7ceac.firebaseio.com",
+	projectId: "blog-7ceac",
+	storageBucket: "blog-7ceac.appspot.com",
+	messagingSenderId: "203761292532",
+	appId: "1:203761292532:web:fa4671f185ea289db83aa1"
 };
 
 firebase.initializeApp(firebaseConfig);
-
-export const db = firebase.firestore();
+const db = firebase.firestore();
+export {db,firebase }

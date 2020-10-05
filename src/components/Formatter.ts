@@ -10,3 +10,7 @@ export class Formatter {
         }).format(date)
     }
 }
+
+// Project Console: https://console.firebase.google.com/project/blog-7ceac/overview
+//     Hosting URL: https://blog-7ceac.web.app
+
