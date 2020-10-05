@@ -1,35 +1,33 @@
 import React, {useEffect, useState} from "react";
 import {LinearProgress} from "@material-ui/core";
 import "./main.css";
-import PostView from "./PostView";
-import Post, {PostInterface} from "../model/Post";
-import Container from "@material-ui/core/Container";
-import {db} from "../config/firebase";
+import PostView from "../components/PostView";
+import Post, {PostInterface} from "../../model/Post";
+import {db} from "../../config/firebase";
+import {RouteComponentProps} from "@reach/router";
 
-export const MainPage = () =>
+export const Main = (props: RouteComponentProps) =>
 {
     const [processing, setProcessing] = useState<boolean>(false);
     const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
-    setProcessing(true);
-        db.collection('posts').onSnapshot(snapshot => {
+        setProcessing(true);
+        return db.collection('posts').onSnapshot(snapshot => {
             const posts: Post[] = [];
             setProcessing(false);
             snapshot.forEach((post) => {
                 posts.push(Post.createFromData(post.data() as PostInterface));
             })
             setPosts(posts);
-        })
-    }, [])
+        });
+    }, []);
 
     return <>
-        <Container maxWidth="md">
-            {posts.map(post => <PostView post={post} key={post.url}/>)}
-            {processing && <div className="line">
-                <LinearProgress color="secondary"/>
-            </div>}
-        </Container>
+        {posts.map(post => <PostView post={post} key={post.url}/>)}
+        {processing && <div className="line">
+            <LinearProgress color="secondary"/>
+        </div>}
     </>;
 }
 

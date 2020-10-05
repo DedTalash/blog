@@ -8,6 +8,11 @@ import {makeStyles} from "@material-ui/core/styles";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import {connect} from "react-redux";
+import {BlogReducers} from "../redux/store";
+import {User} from "firebase";
+import {setUser} from "../redux/actions";
+import {firebase} from "../config/firebase";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,8 +28,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TopBar = () => {
+type Props = {
+	user: User|null,
+	setUser(user: User|null): void,
+	title: string
+}
+
+const TopBar = (props: Props) => {
 	const classes = useStyles();
+
+	const handleSignIn = async () => {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		const result = await firebase.auth().signInWithPopup(provider);
+		props.setUser(result.user);
+	}
+
+	const handleSignOut = () => {
+		firebase.auth().signOut();
+	}
 
 	return (
 		<>
@@ -36,9 +57,12 @@ export const TopBar = () => {
 							<MenuIcon/>
 						</IconButton>
 						<Typography variant="h6" className={classes.title}>
-							Blog
+							{props.title}
 						</Typography>
-						<Button  color="inherit">Login</Button>
+						{props.user ?
+							<Button onClick={handleSignOut} color="inherit">Logout</Button> :
+							<Button onClick={handleSignIn} color="inherit">Login</Button>
+						}
 					</Toolbar>
 				</Container>
 			</AppBar>
@@ -68,3 +92,8 @@ function ScrollTop(props: {children: React.ReactElement})
 		</Zoom>
 	);
 }
+
+export default connect(
+	({ user }: BlogReducers) => ({ user }),
+	{setUser}
+)(TopBar);

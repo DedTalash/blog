@@ -1,16 +1,13 @@
 import {combineReducers, createStore} from "redux";
-import Post from "../model/Post";
-import postsReducer from "./postsReducer";
-import postsProcessingReducer from "./postsProcessingReducer";
+import userReducer from "./userReducer";
+import {User} from "firebase";
 
 export type BlogReducers = {
-    posts: Post[],
-    processing: boolean
+    user: User|null
 }
 
 const reducers = combineReducers<BlogReducers>({
-    posts: postsReducer,
-    processing: postsProcessingReducer
+    user: userReducer,
 });
 
 export default createStore(reducers);

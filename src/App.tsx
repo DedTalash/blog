@@ -1,22 +1,21 @@
-import React, {useState} from 'react';
-import {MainPage} from "./view/MainPage";
-import {firebase} from "./config/firebase";
-import {TopBar} from "./view/TopBar";
+import React from 'react';
+import {Main} from "./view/pages/Main";
+import TopBar from "./view/TopBar";
+import {Link, Router} from "@reach/router";
+import {About} from "./view/pages/About";
+import {Container} from "@material-ui/core";
 
 export default function App()
 {
-    const [user, setUser] = useState<any>(null);
-    const handleSignIn = async () => {
-        const  provider = new firebase.auth.GoogleAuthProvider();
-        const result = await firebase.auth().signInWithPopup(provider);
-        setUser(result.user);
-    }
-
-    return (
-        <>
-            <TopBar/>
-            <MainPage />
-        </>
-    );
+	return <>
+		<TopBar title="Blog"/>
+		<Container maxWidth="md">
+			<Link to="/"> Blog </Link>
+			<Link to="/about"> About </Link>
+			<Router>
+				<Main path="/" />
+				<About path="/about" />
+			</Router>
+		</Container>
+	</>;
 }
-

@@ -1,21 +1,12 @@
-import Post from "../model/Post";
+import {User} from "firebase";
 
-export const SET_POSTS = 'set-posts';
-export const SET_POSTS_PROCESSING = 'set-posts-processing';
-export const  SET_WINDOW_WIDTH = 'set-window-width';
+export const SET_USER = 'SET_USER';
 
-export type PostsAction ={
+export type UserAction ={
     type: string,
-    posts: Post[]
+    user: User
 }
 
-export type PostsProcessingAction ={
-    type: string,
-    processing: boolean
-}
+export const setUser = (user: User): UserAction =>
+    ({type: SET_USER, user});
 
-export const setPosts = (posts: Post[]): PostsAction =>
-    ({type: SET_POSTS, posts});
-
-export const setPostsProcessing = (processing: boolean): PostsProcessingAction=>
-    ({type: SET_POSTS_PROCESSING, processing})
