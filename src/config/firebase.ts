@@ -12,4 +12,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-export {db,firebase }
+export {db,firebase}
+
+// Project Console: https://console.firebase.google.com/project/blog-7ceac/overview
+//     Hosting URL: https://blog-7ceac.web.app

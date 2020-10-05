@@ -9,6 +9,9 @@
 /.idea
 /.git
 
+# locks
+yarn.lock
+
 /src/react-app-env.d.ts
 
 # testing
