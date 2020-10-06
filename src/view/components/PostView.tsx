@@ -3,6 +3,7 @@ import Post from "../../model/Post";
 import {Formatter} from "../../components/Formatter";
 import {Card, CardContent, CardMedia, createMuiTheme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import TopBar from "../TopBar";
 
 interface Props {
 	post: Post
@@ -57,13 +58,17 @@ export default function PostView(props: Props) {
 	const classes = useStyles();
 
 	return (
-		<Card className={classes.blogPost}>
-			<CardMedia
+		<Card className={classes.blogPost} onFocus={() =>
+			<TopBar title={props.post.title}/>
+		}>
+			<CardMedia onFocus={() =>
+				<TopBar title={props.post.title}/>
+			}
 				className={classes.cover}
 				image={props.post.urlToImage}
 				title={props.post.title}
 			/>
-			<CardContent>
+			<CardContent >
 				<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
 					{props.post.title}
 				</Typography>

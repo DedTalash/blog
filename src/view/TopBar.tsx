@@ -94,7 +94,7 @@ const TopBar = (props: Props) => {
                 //setUser()
             }
         })
-    })
+    }, [])
 
     const handleSignIn = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();

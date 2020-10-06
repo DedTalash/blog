@@ -5693,10 +5693,10 @@ firebase-token-generator@^2.0.0:
   resolved "https://registry.yarnpkg.com/firebase-token-generator/-/firebase-token-generator-2.0.0.tgz#9767d759ec13abdc99ba115fd5ea99d8b93d1206"
   integrity sha1-l2fXWewTq9yZuhFf1eqZ2Lk9EgY=
 
-firebase-tools@^8.11.2:
-  version "8.11.2"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.11.2.tgz#35b8b1dc41e3acb66615ab37e05031ea1804cf39"
-  integrity sha512-aKxWDwrWhziPsPphwITVTpBUBl5wC08yZIFNosQc4/I9qXbnLmkIBYd06YvQkm0uwNlCMlJ5zE/UUAemEPUm+A==
+firebase-tools@^8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.12.0.tgz#1b05a3b72932f348d7a6c2b37f5c9bf292733681"
+  integrity sha512-R09lwkm0tTwJ4hzrFyDN0GvLxxmKXYJTl704KKUCOlAaM3nrlocS+Tdx60lJopMwbceFMOqcYenhz6Ask3h+Qg==
   dependencies:
     "@google-cloud/pubsub" "^1.7.0"
     JSONStream "^1.2.1"
@@ -6025,6 +6025,11 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+g@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/g/-/g-2.0.1.tgz#0b5963ebd0ca70e3bc8c6766934a021821c8b857"
+  integrity sha1-C1lj69DKcOO8jGdmk0oCGCHIuFc=
 
 gauge@~2.7.3:
   version "2.7.4"
