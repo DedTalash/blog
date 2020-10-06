@@ -5,10 +5,13 @@ import {Router} from "@reach/router";
 import {About} from "./view/pages/About";
 import {Container} from "@material-ui/core";
 
-export default function App()
+interface Props {
+	title: string
+}
+export default function App(props:Props)
 {
 	return <>
-		<TopBar title="Blog"/>
+		<TopBar title={props.title}/>
 		<Container maxWidth="md">
 			<Router>
 				<Main path="/" />

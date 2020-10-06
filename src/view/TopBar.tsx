@@ -89,9 +89,9 @@ const TopBar = (props: Props) => {
     useEffect(() => {
          firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                setUser(user);
+                props.setUser(user);
             } else {
-                //setUser()
+               props.setUser(null)
             }
         })
     }, [])
