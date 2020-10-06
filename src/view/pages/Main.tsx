@@ -17,7 +17,7 @@ export const Main = (props: RouteComponentProps) =>
             const posts: Post[] = [];
             setProcessing(false);
             snapshot.forEach((post) => {
-                posts.push(Post.createFromData(post.data() as PostInterface));
+                posts.push(Post.createFromData(post.data() as PostInterface, post.id));
             })
             setPosts(posts);
         });

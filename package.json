@@ -10,7 +10,6 @@
     "firebase": "^7.22.0",
     "firebase-tools": "^8.12.0",
     "firestore": "^1.1.6",
-    "g": "^2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",

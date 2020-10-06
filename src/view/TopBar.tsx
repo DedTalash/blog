@@ -3,7 +3,7 @@ import {AppBar, Button, Fab, IconButton, Typography, withStyles, MenuProps} from
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
@@ -87,14 +87,15 @@ const TopBar = (props: Props) => {
     };
 
     useEffect(() => {
-         firebase.auth().onAuthStateChanged(user => {
-            if (user) {
+         return firebase.auth().onAuthStateChanged(user => {
+            // TODO: йухня - сделать красивше
+             if (user) {
                 props.setUser(user);
             } else {
                props.setUser(null)
             }
-        })
-    }, [])
+        });
+    }, []);
 
     const handleSignIn = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -116,6 +117,7 @@ const TopBar = (props: Props) => {
                                     aria-label="menu">
                             <MenuIcon/>
                         </IconButton>
+                        {/* TODO: йухня */}
                         <StyledMenu
                             id="customized-menu"
                             anchorEl={anchorEl}
@@ -137,6 +139,7 @@ const TopBar = (props: Props) => {
                             </StyledMenuItem>
                         </StyledMenu>
                         <Typography variant="h6" className={classes.title}>
+                            {/* TODO: йухня */}
                             {props.title}
                         </Typography>
 

@@ -3,7 +3,7 @@ import Post from "../../model/Post";
 import {Formatter} from "../../components/Formatter";
 import {Card, CardContent, CardMedia, createMuiTheme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import TopBar from "../TopBar";
+import {Link} from "@reach/router";
 
 interface Props {
 	post: Post
@@ -56,27 +56,23 @@ const useStyles = makeStyles((theme) => {
 
 export default function PostView(props: Props) {
 	const classes = useStyles();
+	const { post } = props;
 
 	return (
-		<Card className={classes.blogPost} onFocus={() =>
-			<TopBar title={props.post.title}/>
-		}>
-			<CardMedia onFocus={() =>
-				<TopBar title={props.post.title}/>
-			}
+		<Card className={classes.blogPost}>
+			<CardMedia
 				className={classes.cover}
-				image={props.post.urlToImage}
-				title={props.post.title}
+				image={post.urlToImage}
 			/>
 			<CardContent >
 				<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
-					{props.post.title}
+					<Link to={`/blog/${post.id}`}>{post.title}</Link>
 				</Typography>
 				<Typography className={classes.bodyPost} variant="body1" color="textSecondary" gutterBottom={true}>
-					{props.post.description}
+					{post.description}
 				</Typography>
 				<Typography variant={"body2"} color="textSecondary" align={"right"}>
-					{Formatter.toDate(props.post.publishedAt)}
+					{Formatter.toDate(post.publishedAt)}
 				</Typography>
 			</CardContent>
 		</Card>

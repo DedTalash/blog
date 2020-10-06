@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 
 ReactDOM.render(
     <Provider store={store}>
-        <App title="Blog"/>
+        <App />
     </Provider>,
     document.getElementById('root')
 );

@@ -24,10 +24,11 @@ export default class Post
         public source: Source,
         public title: string,
         public url: string,
-        public urlToImage: string
+        public urlToImage: string,
+        public id: string
     ) {}
 
-    public static createFromData(data: PostInterface): Post {
+    public static createFromData(data: PostInterface, id: string): Post {
         return new Post(
             data.author,
             data.content,
@@ -36,7 +37,8 @@ export default class Post
             data.source,
             data.title,
             data.url,
-            data.urlToImage
+            data.urlToImage,
+            id
         );
     }
 }
