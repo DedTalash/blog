@@ -5,11 +5,19 @@ import {PostView} from "../components/PostView";
 import Post, {PostInterface} from "../../model/Post";
 import {db} from "../../config/firebase";
 import {RouteComponentProps} from "@reach/router";
+import {connect} from "react-redux";
+import {setTitle} from "../../redux/actions";
 
-export const Main = (props: RouteComponentProps) =>
+interface Props {
+    setTitle(title: string): void
+}
+
+const Main = (props: Props & RouteComponentProps) =>
 {
     const [processing, setProcessing] = useState<boolean>(false);
     const [posts, setPosts] = useState<Post[]>([]);
+
+    props.setTitle('Blog');
 
     useEffect(() => {
         setProcessing(true);
@@ -30,6 +38,11 @@ export const Main = (props: RouteComponentProps) =>
         </div>}
     </>;
 }
+
+export default connect(
+    null,
+    { setTitle }
+)(Main);
 
 // private readonly KEY = '8c98e299f73540a694ea5dfba8bf3a1b';
 

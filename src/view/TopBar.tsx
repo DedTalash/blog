@@ -67,8 +67,7 @@ const useStyles = makeStyles((theme) => ({
 type Props = {
     user: User | null,
     setUser(user: User | null): void,
-    title: string,
-
+    title: string
 }
 
 const TopBar = (props: Props) => {
@@ -98,6 +97,10 @@ const TopBar = (props: Props) => {
         firebase.auth().signOut();
     }
 
+    useEffect(() => {
+        document.title = props.title;
+    }, [props.title])
+
     return (
         <>
             <CssBaseline/>
@@ -123,7 +126,6 @@ const TopBar = (props: Props) => {
                             </StyledMenuItem>
                         </StyledMenu>
                         <Typography variant="h6" className={classes.title}>
-                            {/* TODO: йухня */}
                             {props.title}
                         </Typography>
 
@@ -161,7 +163,7 @@ function ScrollTop(props: { children: React.ReactElement }) {
 }
 
 export default connect(
-    ({user}: BlogReducers) => ({user}),
+    ({user, title}: BlogReducers) => ({user, title}),
     {setUser}
 )(TopBar);
 

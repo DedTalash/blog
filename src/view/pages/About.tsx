@@ -1,10 +1,24 @@
 import React from "react";
 import {RouteComponentProps} from "@reach/router";
+import {connect} from "react-redux";
+import {setTitle} from "../../redux/actions";
 
-export const About = (props: RouteComponentProps) => {
+interface Props {
+	setTitle(title: string): void
+}
+
+const About = (props: Props & RouteComponentProps) => {
+
+	props.setTitle('About');
+
 	return (
 		<>
 			About
 		</>
 	)
 }
+
+export default connect(
+	null,
+	{ setTitle }
+)(About);
