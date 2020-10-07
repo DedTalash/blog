@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {LinearProgress} from "@material-ui/core";
 import "./main.css";
-import PostView from "../components/PostView";
+import {PostView} from "../components/PostView";
 import Post, {PostInterface} from "../../model/Post";
 import {db} from "../../config/firebase";
 import {RouteComponentProps} from "@reach/router";

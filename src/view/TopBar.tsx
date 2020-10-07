@@ -15,10 +15,8 @@ import {setUser} from "../redux/actions";
 import {firebase} from "../config/firebase";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send'
 import {Link} from "@reach/router";
+import blue from "@material-ui/core/colors/blue";
 
 
 const StyledMenu = withStyles({
@@ -43,8 +41,8 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
     root: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+            backgroundColor: blue[500],
             '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
                 color: theme.palette.common.white,
             },
@@ -77,24 +75,17 @@ const TopBar = (props: Props) => {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
 
     useEffect(() => {
          return firebase.auth().onAuthStateChanged(user => {
-            // TODO: йухня - сделать красивше
-             if (user) {
-                props.setUser(user);
-            } else {
-               props.setUser(null)
-            }
-        });
+             if(!user) {props.setUser(null)};
+             props.setUser(user)});
     }, []);
 
     const handleSignIn = async () => {
@@ -119,22 +110,15 @@ const TopBar = (props: Props) => {
                         </IconButton>
                         {/* TODO: йухня */}
                         <StyledMenu
-                            id="customized-menu"
                             anchorEl={anchorEl}
                             keepMounted
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
                             <StyledMenuItem>
-                                <ListItemIcon>
-                                    <SendIcon fontSize="small"/>
-                                </ListItemIcon>
-                                    <Link to="/"> Blog </Link>
+                                <Link to="/"> Blog </Link>
                             </StyledMenuItem>
                             <StyledMenuItem>
-                                <ListItemIcon>
-                                    <DraftsIcon fontSize="small"/>
-                                </ListItemIcon>
 								<Link to="/about" > About </Link>
                             </StyledMenuItem>
                         </StyledMenu>

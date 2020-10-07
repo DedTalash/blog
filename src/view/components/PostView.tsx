@@ -6,7 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "@reach/router";
 
 interface Props {
-	post: Post
+	post: Post,
 }
 
 // TODO: fix this shit
@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme) => {
 	);
 });
 
-export default function PostView(props: Props) {
+export const PostView = (props: Props) => {
 	const classes = useStyles();
 	const { post } = props;
 
 	return (
-		<Card className={classes.blogPost}>
+		<Card className={classes.blogPost}  >
 			<CardMedia
 				className={classes.cover}
 				image={post.urlToImage}
@@ -78,3 +78,4 @@ export default function PostView(props: Props) {
 		</Card>
 	);
 }
+
