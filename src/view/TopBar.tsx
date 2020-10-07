@@ -129,6 +129,7 @@ const TopBar = (props: Props) => {
                             {props.title}
                         </Typography>
 
+                        {/* TODO: user menu */}
                         {props.user ?
                             <Button onClick={handleSignOut} color="inherit">Logout</Button> :
                             <Button onClick={handleSignIn} color="inherit">Login</Button>
