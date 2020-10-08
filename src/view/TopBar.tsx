@@ -49,7 +49,7 @@ const TopBar = (props: Props) => {
         <>
             <CssBaseline/>
             <AppBar position="sticky">
-                <Container maxWidth="md">
+                <Container>
                     <Toolbar>
                         <MainMenu/>
                         <Typography variant="h6" className={classes.title}>

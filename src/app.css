@@ -9,6 +9,10 @@ h1 {
     margin-top: 0;
 }
 
+.main-container {
+    background-color: #fff;
+}
+
 .line {
     padding-bottom: 20px;
 }

@@ -2,29 +2,60 @@ import React, {useEffect, useState} from "react";
 import {Link, RouteComponentProps} from "@reach/router";
 import {db} from '../../config/firebase';
 import {default as BlogPost, PostInterface} from '../../model/Post';
-import {Breadcrumbs, LinearProgress, Typography} from "@material-ui/core";
+import {Breadcrumbs, CardMedia, LinearProgress, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
 import {setTitle} from "../../redux/actions";
 import CommentBlock from "../components/CommentsBlock";
 import {BlogReducers} from "../../redux/store";
 import {User} from "firebase";
 import Container from "@material-ui/core/Container";
+import {ThumbDown, ThumbUp} from "@material-ui/icons";
 
 interface Props {
     postId?: string,
     setTitle(title: string): void,
     user?: User | null
 }
-
+interface Like {
+    type: boolean,
+    date: string
+}
 const Post = (props: Props & RouteComponentProps) => {
     const {postId} = props;
+
+    const [likesValue, setLikesValue] = useState<number>(0)
+    const [canLike, setCanLike] = useState<boolean>(false)
 
     const [post, setPost] = useState<BlogPost | null>(null);
 
     useEffect(() => {
+        return db.collection('posts').doc(postId).collection('likes').onSnapshot(snapshot => {
+            let canLike = true;
+            let value = 0;
+            snapshot.forEach((like) => {
+                const userLike = like.data() as Like;
+
+                if (userLike.type) {
+                    value++;
+                } else {
+                    value--;
+                }
+
+                // if (false) {
+                //     canLike = false;
+                // }
+            })
+            setLikesValue(value);
+            setCanLike(canLike);
+        });
+    }, [postId]);
+
+    useEffect(() => {
         return db.doc(`posts/${postId}`).onSnapshot((post) => {
             if (post.exists) {
-                setPost(BlogPost.createFromData(post.data() as PostInterface, post.id));
+                const newPost = BlogPost.createFromData(post.data() as PostInterface, post.id);
+                props.setTitle(newPost.title);
+                setPost(newPost);
             } else {
                 // TODO: show 404
             }
@@ -32,10 +63,15 @@ const Post = (props: Props & RouteComponentProps) => {
     }, [postId])
 
     if (!post) {
-        return <>  <LinearProgress color="secondary"/></>
+        return <LinearProgress color="secondary"/>
     }
-    console.log(props.user?.displayName);
-    props.setTitle(post.title);
+
+    const handleLike = (type: boolean) => {
+        db.collection('posts').doc(postId).collection('likes').add({
+            type,
+            date: new Date().toString()
+        });
+    }
 
     // TODO: дизайн йухня
     // TODO: do not allow to unregistred user to comment
@@ -48,8 +84,16 @@ const Post = (props: Props & RouteComponentProps) => {
                 </Link>
                 <Typography color="textPrimary">{post.title}</Typography>
             </Breadcrumbs>
+            <CardMedia image={post.urlToImage} />
             <h1>{post.title}</h1>
             <p>{post.content}</p>
+            <div className="likes">
+                {likesValue}
+                {props.user && canLike && <>
+                    <ThumbUp onClick={handleLike.bind(null, true)}/>
+                    <ThumbDown onClick={handleLike.bind(null, false)}/>
+                </> }
+            </div>
         </Container>
 
 

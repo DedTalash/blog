@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {db} from "../../config/firebase";
-import {createStyles, LinearProgress, Theme} from "@material-ui/core";
+import {createStyles, LinearProgress, PropTypes, Theme} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -10,8 +10,6 @@ import TextField from "@material-ui/core/TextField";
 import red from "@material-ui/core/colors/red";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
@@ -24,25 +22,24 @@ interface Props {
 	user?: User|null
 }
 interface Comment {
+	id: string,
 	comment: string,
 	date: string
 }
-const useStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		root: {
-			'& > *': {
-				margin: theme.spacing(1),
-				width: '25ch',
-			},
-		},
-	}),
-);
+
 const useStylesCard = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			maxHeight: 200,
 			width: '100%',
 			overflow: 'auto'
+		},
+		spacedBlock: {
+			marginBottom: theme.spacing(2)
+		},
+		buttonContainer: {
+			marginBottom: theme.spacing(2),
+			textAlign: 'right'
 		},
 		media: {
 			height: 0,
@@ -65,14 +62,10 @@ const useStylesCard = makeStyles((theme: Theme) =>
 	}),
 );
  	const CommentBlock = (props:Props) => {
-	const classes = useStyles();
-	const classesCard = useStylesCard();
+	const classes = useStylesCard();
 	const postId = props.postId;
 	const user = props.user;
-	const [expanded, setExpanded] = React.useState(false);
-	const handleExpandClick = () => {
-		setExpanded(!expanded);
-	};
+
 	const [comment, setComment] = useState('')
 	const [processing, setProcessing] = useState<boolean>(false);
 	const [comments, setComments] = useState<Comment[]>([]);
@@ -91,7 +84,10 @@ const useStylesCard = makeStyles((theme: Theme) =>
 			const comments: Comment[] = [];
 			setProcessing(false);
 			snapshot.forEach((comment) => {
-				comments.push(comment.data() as Comment);
+				comments.push({
+					...comment.data(),
+					id: comment.id
+				} as Comment);
 			})
 			setComments(comments);
 		});
@@ -106,30 +102,14 @@ const useStylesCard = makeStyles((theme: Theme) =>
 	return(
 		<>
 			<Container>
-				<form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-						<TextField  id="outlined-secondary"
-									label="Outlined secondary"
-									variant="outlined"
-									color="secondary"
-									rowsMax={4} aria-label="My comment"
-									value={comment} placeholder="Maximum 4 rows"
-									onChange={handleChange}/>
-					<div>
-						<Button
-							variant="contained"
-							color="primary"
-							type="submit"
-						>
-							Submit
-						</Button>
-					</div>
-				</form>
-				<Box border={1}>
+				<h3>Comments</h3>
+
+				<Box className={classes.spacedBlock}>
 					{comments.map(comment =>
-						<Card className={classesCard.root}>
+						<Card key={comment.id} className={classes.root}>
 							<CardHeader
 								avatar={
-									<Avatar aria-label="recipe" className={classesCard.avatar}>
+									<Avatar aria-label="recipe" className={classes.avatar}>
 										R
 									</Avatar>
 								}
@@ -139,21 +119,41 @@ const useStylesCard = makeStyles((theme: Theme) =>
 								// 	</IconButton>
 								// }
 								title={user?.displayName}
-								subheader="September 14, 2016"
+								subheader={new Date(comment.date).toLocaleString()}
 							/>
 							{/*<CardMedia*/}
-							{/*	className={classesCard.media}*/}
+							{/*	className={classes.media}*/}
 							{/*	// image={}*/}
 							{/*	title="Paella dish"*/}
 							{/*/>*/}
 							<CardContent>
 								<Typography variant="body2" color="textSecondary" component="p">
-									<div>{comment.comment}</div>
-											{/*<div>{comment.date as string}</div>*/}
+									{comment.comment}
 								</Typography>
 							</CardContent>
 						</Card>)}
 				</Box>
+				<form autoComplete="off" onSubmit={handleSubmit}>
+					<TextField  label="Enter your comment"
+					            variant="outlined"
+					            className={classes.spacedBlock}
+					            fullWidth
+					            rows={4}
+					            multiline
+					            aria-label="My comment"
+					            value={comment} placeholder="Maximum 4 rows"
+					            onChange={handleChange}/>
+					<div className={classes.buttonContainer}>
+						<Button
+							variant="contained"
+							color="primary"
+							type="submit"
+							size="large"
+						>
+							Post
+						</Button>
+					</div>
+				</form>
 
 				{processing && <div className="line">
 					<LinearProgress color="secondary"/>
