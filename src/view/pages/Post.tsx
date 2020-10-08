@@ -6,10 +6,13 @@ import {Breadcrumbs, LinearProgress, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
 import {setTitle} from "../../redux/actions";
 import {CommentBlock} from "../components/CommentsBlock";
+import {BlogReducers} from "../../redux/store";
+import {User} from "firebase";
 
 interface Props  {
 	postId?: string,
-	setTitle(title: string): void
+	setTitle(title: string): void,
+	user?: User|null
 }
 
 const Post = (props: Props & RouteComponentProps) => {
@@ -30,7 +33,7 @@ const Post = (props: Props & RouteComponentProps) => {
 	if (!post) {
 		return <>  <LinearProgress color="secondary"/></>
 	}
-
+	console.log(typeof (props.user?.email))
 	props.setTitle(post.title);
 
 	// TODO: дизайн йухня

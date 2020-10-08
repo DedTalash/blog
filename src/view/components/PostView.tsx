@@ -1,26 +1,14 @@
 import React from "react";
 import Post from "../../model/Post";
 import {Formatter} from "../../components/Formatter";
-import {Card, CardContent, CardMedia, createMuiTheme, Typography} from "@material-ui/core";
+import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "@reach/router";
+import {myTheme} from "../../config/firebase";
 
 interface Props {
 	post: Post,
 }
-
-// TODO: fix this shit
-const myTheme: any = createMuiTheme({
-	breakpoints: {
-		values: {
-			xs: 0,
-			sm: 384,
-			md: 560,
-			lg: 674,
-			xl: 1200
-		}
-	}
-});
 
 const useStyles = makeStyles((theme) => {
 
