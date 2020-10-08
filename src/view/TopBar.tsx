@@ -11,7 +11,7 @@ import {User} from "firebase";
 import {setUser} from "../redux/actions";
 import {firebase} from "../config/firebase";
 import {MainMenu} from "./components/MainMenu";
-import {MenuAfterLogin} from "./components/MenuAfterLogin";
+import MenuAfterLogin from "./components/MenuAfterLogin";
 import {ScrollTop} from "./components/ScrollTop";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,6 @@ const TopBar = (props: Props) => {
         const result = await firebase.auth().signInWithPopup(provider);
         props.setUser(result.user);
     }
-
     useEffect(() => {
         document.title = props.title;
     }, [props.title])
@@ -56,7 +55,6 @@ const TopBar = (props: Props) => {
                         <Typography variant="h6" className={classes.title}>
                             {props.title}
                         </Typography>
-                        {/* TODO: user menu */}
                         {props.user ?
                             <MenuAfterLogin/>:
                             <Button onClick={handleSignIn} color="inherit">Login</Button>

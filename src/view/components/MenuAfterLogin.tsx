@@ -6,6 +6,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {Link} from "@reach/router";
 import {makeStyles} from "@material-ui/core/styles";
 import {firebase} from "../../config/firebase";
+import {connect} from "react-redux";
+import {BlogReducers} from "../../redux/store";
+import {User} from "firebase";
+import {setTitle} from "../../redux/actions";
 
 
 const StyledMenu = withStyles({
@@ -27,6 +31,10 @@ const StyledMenu = withStyles({
         {...props}
     />
 ));
+
+interface Props {
+    user: User|null
+}
 
 const StyledMenuItem = withStyles((theme) => ({
     root: {
@@ -51,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
 }));
-export const MenuAfterLogin =() => {
+    const MenuAfterLogin =(props:Props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -67,7 +75,7 @@ export const MenuAfterLogin =() => {
         <>
             <IconButton edge="start" onClick={handleClick}   className={classes.menuButton} color="inherit"
                         aria-label="menu">
-                User.Name
+                {props.user?.displayName}
             </IconButton>
             <StyledMenu
                 anchorEl={anchorEl}
@@ -89,3 +97,9 @@ export const MenuAfterLogin =() => {
         </>
     )
 }
+
+export default connect(
+    ({user}: BlogReducers) => ({user}),
+    { }
+)
+(MenuAfterLogin)

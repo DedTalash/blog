@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+
 }));
 export const MainMenu =() => {
     const classes = useStyles();
@@ -62,8 +63,8 @@ export const MainMenu =() => {
     };
     return(
         <>
-            <IconButton edge="start" onClick={handleClick} className={classes.menuButton} color="inherit"
-                        aria-label="menu">
+            <IconButton edge="end" onClick={handleClick} className={classes.menuButton} color="inherit"
+                        aria-label="menu"  aria-disabled='true'>
                 <MenuIcon/>
             </IconButton>
             <StyledMenu
@@ -73,7 +74,7 @@ export const MainMenu =() => {
                 onClose={handleClose}
             >
                 <StyledMenuItem>
-                    <Link onClick={handleClose} to="/"> Blog </Link>
+                    <Link onClick={handleClose}  to="/"> Blog </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
                     <Link onClick={handleClose} to="/about" > About </Link>
