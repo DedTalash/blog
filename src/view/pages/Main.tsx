@@ -27,6 +27,7 @@ const Main = (props: Props & RouteComponentProps) =>
                 posts.push(Post.createFromData(post.data() as PostInterface, post.id));
             })
             setPosts(posts);
+            props.setTitle('Blog');
         });
     }, []);
 

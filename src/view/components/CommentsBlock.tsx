@@ -4,167 +4,205 @@ import {createStyles, LinearProgress, PropTypes, Theme} from "@material-ui/core"
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
-import red from "@material-ui/core/colors/red";
-import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
 import {setTitle} from "../../redux/actions";
 import {User} from "firebase";
+import ol from "@material-ui/core/List";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
 
 interface Props {
-	postId:string,
-	user?: User|null
+    postId: string,
+    user?: User | null
 }
+
 interface Comment {
-	id: string,
-	comment: string,
-	date: string
+    id: string,
+    comment: string,
+    date: string
 }
 
-const useStylesCard = makeStyles((theme: Theme) =>
-	createStyles({
-		root: {
-			maxHeight: 200,
-			width: '100%',
-			overflow: 'auto'
-		},
-		spacedBlock: {
-			marginBottom: theme.spacing(2)
-		},
-		buttonContainer: {
-			marginBottom: theme.spacing(2),
-			textAlign: 'right'
-		},
-		media: {
-			height: 0,
-			paddingTop: '56.25%', // 16:9
-
-		},
-		expand: {
-			transform: 'rotate(0deg)',
-			marginLeft: 'auto',
-			transition: theme.transitions.create('transform', {
-				duration: theme.transitions.duration.shortest,
-			}),
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
-		},
-		avatar: {
-			backgroundColor: red[500],
-		},
-	}),
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            maxwidth: 'auto!important',
+            backgroundColor: theme.palette.background.paper
+        },
+        commentList: {
+            listStyle: 'none',
+        },
+        commentContainer: {
+            display: 'list-item',
+            align: 'inherit'
+        },
+        avatar: {
+            display: 'inline-block',
+            float: 'left',
+            width: 80,
+            height: 80,
+            marginRight: 30,
+            webkitBorderRadius: '50%',
+            moBorderRadius: '50%',
+            msBorderRadius: '50%',
+            borderRadius: '50%'
+        },
+        spacedBlock: {
+            marginBottom: theme.spacing(2)
+        },
+        buttonContainer: {
+            marginBottom: theme.spacing(2),
+            textAlign: 'right'
+        },
+        commentContent: {
+            position: 'relative',
+            width: '100%',
+            display: 'block'
+        },
+        commentAuthor: {
+            display: 'inline-block',
+            width: '100%'
+        },
+        commentAuthorName: {
+            fontWeight: 600,
+            margin: '5px 0 8px',
+            float: 'left',
+            fontSize: 14
+        },
+        commentData: {
+            float: 'right',
+            textAlign: 'right',
+            fontSize: 10,
+            lineHeight: '2.5',
+            textTransform: 'uppercase',
+            letterSpacing: '.1em'
+        },
+        commentText: {
+            margin: 0,
+            padding: 0,
+            border: 0,
+            outline: 0,
+            font: 'inherit',
+            verticalAlign: 'baseline',
+            fontFamily: 'inherit',
+            fontStyle: 'inherit',
+            fontWeight: 'inherit'
+        },
+        commentArea: {
+            display: 'flex',
+            marginBottom: 30,
+            paddingBottom: 30,
+            borderBottom: '1px solid #f1f1f1'
+        },
+    }),
 );
- 	const CommentBlock = (props:Props) => {
-	const classes = useStylesCard();
-	const postId = props.postId;
-	const user = props.user;
+const CommentBlock = (props: Props) => {
+    const classes = useStyles();
+    const postId = props.postId;
+    const user = props.user;
 
-	const [comment, setComment] = useState('')
-	const [processing, setProcessing] = useState<boolean>(false);
-	const [comments, setComments] = useState<Comment[]>([]);
+    const [comment, setComment] = useState('');
+    const [size, setSize] = useState(0);
+    const [processing, setProcessing] = useState<boolean>(false);
+    const [comments, setComments] = useState<Comment[]>([]);
 
-	const handleSubmit = (event:any) => {
-		event.preventDefault();
-		db.collection('posts').doc(postId).collection('comments').add({
-			comment,
-			date: new Date().toString()
-		});
-		setComment('');
-	}
-	useEffect(() => {
-		setProcessing(true);
-		return db.collection('posts').doc(postId).collection('comments').onSnapshot(snapshot => {
-			const comments: Comment[] = [];
-			setProcessing(false);
-			snapshot.forEach((comment) => {
-				comments.push({
-					...comment.data(),
-					id: comment.id
-				} as Comment);
-			})
-			setComments(comments);
-		});
-	}, []);
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        db.collection('posts').doc(postId).collection('comments').add({
+            comment,
+            date: new Date().toString()
+        });
+        setComment('');
+    }
+    useEffect(() => {
+        setProcessing(true);
+        return db.collection('posts').doc(postId).collection('comments')
+            .orderBy('date').onSnapshot(snapshot => {
+            const comments: Comment[] = [];
+            const size = snapshot.size;
+            setProcessing(false);
+            snapshot.forEach((comment) => {
+                comments.push({
+                    ...comment.data(),
+                    id: comment.id
+                } as Comment);
+            })
+            setComments(comments);
+            setSize(size)
+        });
+    }, []);
 
-	const handleChange = (event:any) => {
-		setComment(event.target.value);
-	};
+    const handleChange = (event: any) => {
+        setComment(event.target.value);
+    };
 
 
-	// TODO: дизайн йухня
-	return(
-		<>
-			<Container>
-				<h3>Comments</h3>
+    return (
+        <>
+            <Container className={classes.root}>
+                <h3>Comments {size} </h3>
+                {comments.map(comment =>
+                    <ol className={classes.commentList}>
+                        <li className={classes.commentContainer}>
+                            <div className={classes.commentArea}>
+                                //TODO check author message
+                                <ListItemAvatar className={classes.avatar}>
+                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                                </ListItemAvatar>
+                                <div className={classes.commentContent}>
+                                    <div className={classes.commentAuthor}>
+								        <span className={classes.commentAuthorName}>
+									    {user?.displayName}
+								        </span>
+                                        <span className={classes.commentData}>
+									    {new Date(comment.date).toLocaleString()}
+								        </span>
+                                    </div>
+                                    <Typography className={classes.commentText}>
+                                        {comment.comment}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                )}
+                <Divider variant="inset" component="li"/>
 
-				<Box className={classes.spacedBlock}>
-					{comments.map(comment =>
-						<Card key={comment.id} className={classes.root}>
-							<CardHeader
-								avatar={
-									<Avatar aria-label="recipe" className={classes.avatar}>
-										R
-									</Avatar>
-								}
-								// action={
-								// 	<IconButton aria-label="settings">
-								// 		<MoreVertIcon />
-								// 	</IconButton>
-								// }
-								title={user?.displayName}
-								subheader={new Date(comment.date).toLocaleString()}
-							/>
-							{/*<CardMedia*/}
-							{/*	className={classes.media}*/}
-							{/*	// image={}*/}
-							{/*	title="Paella dish"*/}
-							{/*/>*/}
-							<CardContent>
-								<Typography variant="body2" color="textSecondary" component="p">
-									{comment.comment}
-								</Typography>
-							</CardContent>
-						</Card>)}
-				</Box>
-				<form autoComplete="off" onSubmit={handleSubmit}>
-					<TextField  label="Enter your comment"
-					            variant="outlined"
-					            className={classes.spacedBlock}
-					            fullWidth
-					            rows={4}
-					            multiline
-					            aria-label="My comment"
-					            value={comment} placeholder="Maximum 4 rows"
-					            onChange={handleChange}/>
-					<div className={classes.buttonContainer}>
-						<Button
-							variant="contained"
-							color="primary"
-							type="submit"
-							size="large"
-						>
-							Post
-						</Button>
-					</div>
-				</form>
+                <form autoComplete="off" onSubmit={handleSubmit}>
+                    <TextField label="Enter your comment"
+                               variant="outlined"
+                               className={classes.spacedBlock}
+                               fullWidth
+                               rows={4}
+                               multiline
+                               aria-label="My comment"
+                               value={comment} placeholder="Maximum 4 rows"
+                               onChange={handleChange}/>
+                    <div className={classes.buttonContainer}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            size="large"
+                        >
+                            Post
+                        </Button>
+                    </div>
+                </form>
 
-				{processing && <div className="line">
-					<LinearProgress color="secondary"/>
-				</div>}
-			</Container>
-
-		</>
-	)
-
+                {processing && <div className="line">
+                    <LinearProgress color="secondary"/>
+                </div>}
+            </Container>
+        </>
+    )
 }
 export default connect(
-	({user}: BlogReducers) => ({user}),
-	{setTitle}
+    ({user}: BlogReducers) => ({user}),
+    {setTitle}
 )(CommentBlock);
+
+

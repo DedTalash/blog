@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    app: {
+        width: '100%'
+    }
 }));
 
 type Props = {
@@ -48,7 +51,7 @@ const TopBar = (props: Props) => {
     return (
         <>
             <CssBaseline/>
-            <AppBar position="sticky">
+            <AppBar  position="sticky" className={classes.app}>
                 <Container>
                     <Toolbar>
                         <MainMenu/>

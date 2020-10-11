@@ -24,7 +24,7 @@ export const myTheme: any = createMuiTheme({
 			xs: 0,
 			sm: 384,
 			md: 560,
-			lg: 674,
+			lg: 900,
 			xl: 1200
 		}
 	}

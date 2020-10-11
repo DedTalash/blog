@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, RouteComponentProps} from "@reach/router";
 import {db} from '../../config/firebase';
 import {default as BlogPost, PostInterface} from '../../model/Post';
-import {Breadcrumbs, CardMedia, LinearProgress, Typography} from "@material-ui/core";
+import {Breadcrumbs, CardMedia, createStyles, LinearProgress, Theme, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
 import {setTitle} from "../../redux/actions";
 import CommentBlock from "../components/CommentsBlock";
@@ -10,6 +10,7 @@ import {BlogReducers} from "../../redux/store";
 import {User} from "firebase";
 import Container from "@material-ui/core/Container";
 import {ThumbDown, ThumbUp} from "@material-ui/icons";
+import {makeStyles} from "@material-ui/core/styles";
 
 interface Props {
     postId?: string,
@@ -20,9 +21,29 @@ interface Like {
     type: boolean,
     date: string
 }
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            maxHeight: 200,
+            width: '100%',
+            overflow: 'auto'
+        },
+        likes: {
+            maxHeight: 200,
+            width: '100%',
+            display: 'block',
+            textAlign: 'right'
+        },
+        buttonContainer: {
+            marginBottom: theme.spacing(2),
+            marginRight: theme.spacing(2)
+        },
+
+    }),
+);
 const Post = (props: Props & RouteComponentProps) => {
     const {postId} = props;
-
+    const classes = useStyles();
     const [likesValue, setLikesValue] = useState<number>(0)
     const [canLike, setCanLike] = useState<boolean>(false)
 
@@ -60,7 +81,7 @@ const Post = (props: Props & RouteComponentProps) => {
                 // TODO: show 404
             }
         })
-    }, [postId])
+    }, [])
 
     if (!post) {
         return <LinearProgress color="secondary"/>
@@ -87,11 +108,11 @@ const Post = (props: Props & RouteComponentProps) => {
             <CardMedia image={post.urlToImage} />
             <h1>{post.title}</h1>
             <p>{post.content}</p>
-            <div className="likes">
+            <div className={classes.likes}>
                 {likesValue}
                 {props.user && canLike && <>
-                    <ThumbUp onClick={handleLike.bind(null, true)}/>
-                    <ThumbDown onClick={handleLike.bind(null, false)}/>
+                    <ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
+                    <ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
                 </> }
             </div>
         </Container>

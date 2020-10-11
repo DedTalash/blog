@@ -9,8 +9,7 @@ import {firebase} from "../../config/firebase";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
 import {User} from "firebase";
-import {setTitle} from "../../redux/actions";
-
+import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp';
 
 const StyledMenu = withStyles({
     paper: {
@@ -44,16 +43,23 @@ const StyledMenuItem = withStyles((theme) => ({
                 color: theme.palette.common.white,
             },
         },
+        paddingLeft: 0,
+        paddingRight: 0,
     },
 }))(MenuItem);
 const useStyles = makeStyles((theme) => ({
     root: {
-        position: 'fixed',
+        position: 'static',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        fontSize: 14
+    },
+    padding: {
+        paddingLeft: 16,
+        paddingRight: 16,
     },
     title: {
         flexGrow: 1,
@@ -73,10 +79,12 @@ const useStyles = makeStyles((theme) => ({
     }
     return(
         <>
-            <IconButton edge="start" onClick={handleClick}   className={classes.menuButton} color="inherit"
+            <IconButton  edge="start" onClick={handleClick}   className={classes.menuButton} color="inherit"
                         aria-label="menu">
                 {props.user?.displayName}
+                <ArrowDropDownSharpIcon/>
             </IconButton>
+
             <StyledMenu
                 anchorEl={anchorEl}
                 keepMounted
@@ -84,15 +92,15 @@ const useStyles = makeStyles((theme) => ({
                 onClose={handleClose}
             >
                 <StyledMenuItem>
-                    <Link onClick={handleClose} to="/"> Blog </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/"> Blog </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link onClick={handleClose} to="/" > Personal Jesus </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/" > Personal Jesus </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link onClick={handleClose} to="/about" > Commemts </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/about" > Commemts </Link>
                 </StyledMenuItem>
-                <Button onClick={handleSignOut} color="inherit">Logout</Button>
+                <Button className={classes.padding} onClick={handleSignOut} color="inherit">Logout</Button>
             </StyledMenu>
         </>
     )

@@ -36,7 +36,10 @@ const StyledMenuItem = withStyles((theme) => ({
                 color: theme.palette.common.white,
             },
         },
+        paddingLeft: 0,
+        paddingRight: 0,
     },
+
 }))(MenuItem);
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
+    padding: {
+        paddingLeft: 16,
+        paddingRight: 16,
+    },
+
     title: {
         flexGrow: 1,
     },
@@ -73,11 +81,11 @@ export const MainMenu =() => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem>
-                    <Link onClick={handleClose}  to="/"> Blog </Link>
+                <StyledMenuItem >
+                    <Link className={classes.padding} onClick={handleClose}  to="/"> Blog </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link onClick={handleClose} to="/about" > About </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/about" > About </Link>
                 </StyledMenuItem>
             </StyledMenu>
         </>

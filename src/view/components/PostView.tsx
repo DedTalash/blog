@@ -15,22 +15,32 @@ const useStyles = makeStyles((theme) => {
 	theme.breakpoints = myTheme.breakpoints;
 
 	return ({
-			blogPost: {
-				[theme.breakpoints.down('sm')]: {
-					display: 'block',
-				},
+			root: {
 				display: 'flex',
+				flexWrap: 'wrap',
+			},
+			countCards: {
+				display: 'inline-flex',
+				padding: 10,
+				[theme.breakpoints.down('sm')]: {
+					width: '100%',
+				},
+				[theme.breakpoints.only('md')]: {
+					width: '50%',
+				},
+				[theme.breakpoints.up('lg')]: {
+					width: '33.3%',
+				},
+			},
+			blogPost: {
+				verticalAlign: 'middle',
+				display: 'block',
 				marginTop: '20px',
 			},
 			cover: {
-				flex: '0 0 200px',
+				height: 280,
 				paddingTop: '25px',
 				backgroundSize: 'cover',
-
-				[theme.breakpoints.down('sm')]: {
-					display: 'block',
-					height: '250px',
-				},
 			},
 			title: {
 				fontSize: '20px',
@@ -47,12 +57,13 @@ export const PostView = (props: Props) => {
 	const { post } = props;
 
 	return (
-		<Card className={classes.blogPost}  >
+		<div className={classes.countCards}>
+			<Card className={classes.blogPost}  >
 			<CardMedia
 				className={classes.cover}
 				image={post.urlToImage}
 			/>
-			<CardContent >
+			<CardContent>
 				<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
 					<Link to={`/blog/${post.id}`}>{post.title}</Link>
 				</Typography>
@@ -63,7 +74,8 @@ export const PostView = (props: Props) => {
 					{Formatter.toDate(post.publishedAt)}
 				</Typography>
 			</CardContent>
-		</Card>
+			</Card>
+		</div>
 	);
 }
 
