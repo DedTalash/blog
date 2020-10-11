@@ -7,9 +7,12 @@ import {Container} from "@material-ui/core";
 import Post from "./view/pages/Post";
 import {Wrong} from "./view/pages/Wrong";
 import "./app.css";
+import {useTitle} from "./utils/useTitle";
+import config from "./config/config";
 
 export default function App()
 {
+	useTitle(config.companyName);
 	return <>
 		<TopBar />
 		<Container className="main-container">

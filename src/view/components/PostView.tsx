@@ -1,18 +1,15 @@
 import React from "react";
 import Post from "../../model/Post";
 import {Formatter} from "../../components/Formatter";
-import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
+import {Card, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "@reach/router";
-import {myTheme} from "../../config/firebase";
 
 interface Props {
 	post: Post,
 }
 
 const useStyles = makeStyles((theme) => {
-
-	theme.breakpoints = myTheme.breakpoints;
 
 	return ({
 			root: {
@@ -22,14 +19,14 @@ const useStyles = makeStyles((theme) => {
 			countCards: {
 				display: 'inline-flex',
 				padding: 10,
-				[theme.breakpoints.down('sm')]: {
-					width: '100%',
+				[theme.breakpoints.up('md')]: {
+					width: '33.3%',
 				},
-				[theme.breakpoints.only('md')]: {
+				[theme.breakpoints.down('md')]: {
 					width: '50%',
 				},
-				[theme.breakpoints.up('lg')]: {
-					width: '33.3%',
+				[theme.breakpoints.down('xs')]: {
+					width: '100%',
 				},
 			},
 			blogPost: {
@@ -57,7 +54,7 @@ export const PostView = (props: Props) => {
 	const { post } = props;
 
 	return (
-		<div className={classes.countCards}>
+		<Grid item className={classes.countCards}>
 			<Card className={classes.blogPost}  >
 			<CardMedia
 				className={classes.cover}
@@ -75,7 +72,7 @@ export const PostView = (props: Props) => {
 				</Typography>
 			</CardContent>
 			</Card>
-		</div>
+		</Grid>
 	);
 }
 

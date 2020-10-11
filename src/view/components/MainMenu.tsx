@@ -36,8 +36,7 @@ const StyledMenuItem = withStyles((theme) => ({
                 color: theme.palette.common.white,
             },
         },
-        paddingLeft: 0,
-        paddingRight: 0,
+        padding: 0,
     },
 
 }))(MenuItem);
@@ -51,15 +50,15 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     padding: {
-        paddingLeft: 16,
-        paddingRight: 16,
+        padding: '6px 16px',
+        display: 'block',
+        width: '100%'
     },
-
     title: {
         flexGrow: 1,
     },
-
 }));
+
 export const MainMenu =() => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import 'firebase/auth'
-import {createMuiTheme} from "@material-ui/core";
+
 const firebaseConfig = {
 	apiKey: "AIzaSyC2_njUyrAwAauPZ8yAzG09zaM6tnKIJkQ",
 	authDomain: "blog-7ceac.firebaseapp.com",
@@ -17,15 +17,3 @@ export {db,firebase}
 
 // Project Console: https://console.firebase.google.com/project/blog-7ceac/overview
 //     Hosting URL: https://blog-7ceac.web.app
-
-export const myTheme: any = createMuiTheme({
-	breakpoints: {
-		values: {
-			xs: 0,
-			sm: 384,
-			md: 560,
-			lg: 900,
-			xl: 1200
-		}
-	}
-});

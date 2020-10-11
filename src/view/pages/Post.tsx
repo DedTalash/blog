@@ -4,17 +4,17 @@ import {db} from '../../config/firebase';
 import {default as BlogPost, PostInterface} from '../../model/Post';
 import {Breadcrumbs, CardMedia, createStyles, LinearProgress, Theme, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
-import {setTitle} from "../../redux/actions";
 import CommentBlock from "../components/CommentsBlock";
 import {BlogReducers} from "../../redux/store";
 import {User} from "firebase";
 import Container from "@material-ui/core/Container";
 import {ThumbDown, ThumbUp} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
+import {useTitle} from "../../utils/useTitle";
+import config from "../../config/config";
 
 interface Props {
     postId?: string,
-    setTitle(title: string): void,
     user?: User | null
 }
 interface Like {
@@ -49,6 +49,8 @@ const Post = (props: Props & RouteComponentProps) => {
 
     const [post, setPost] = useState<BlogPost | null>(null);
 
+    useTitle(post ? post.title : config.companyName);
+
     useEffect(() => {
         return db.collection('posts').doc(postId).collection('likes').onSnapshot(snapshot => {
             let canLike = true;
@@ -75,7 +77,6 @@ const Post = (props: Props & RouteComponentProps) => {
         return db.doc(`posts/${postId}`).onSnapshot((post) => {
             if (post.exists) {
                 const newPost = BlogPost.createFromData(post.data() as PostInterface, post.id);
-                props.setTitle(newPost.title);
                 setPost(newPost);
             } else {
                 // TODO: show 404
@@ -132,6 +133,5 @@ const Post = (props: Props & RouteComponentProps) => {
 }
 
 export default connect(
-    ({user}: BlogReducers) => ({user}),
-    {setTitle}
+    ({user}: BlogReducers) => ({user})
 )(Post);

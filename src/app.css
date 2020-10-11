@@ -24,10 +24,12 @@ h1 {
 .blog-post {
     height: 30vh;
 }
-a {
-    text-decoration: none;
 
-}
 textarea {
     width: 100%
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }

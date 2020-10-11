@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from "react";
-import {LinearProgress} from "@material-ui/core";
+import {Grid, LinearProgress} from "@material-ui/core";
 import {PostView} from "../components/PostView";
 import Post, {PostInterface} from "../../model/Post";
 import {db} from "../../config/firebase";
 import {RouteComponentProps} from "@reach/router";
 import {connect} from "react-redux";
-import {setTitle} from "../../redux/actions";
+import {useTitle} from "../../utils/useTitle";
+import config from "../../config/config";
 
 interface Props {
-    setTitle(title: string): void
+
 }
 
 const Main = (props: Props & RouteComponentProps) =>
 {
+    useTitle(config.companyName);
+
     const [processing, setProcessing] = useState<boolean>(false);
     const [posts, setPosts] = useState<Post[]>([]);
-
-    props.setTitle('Blog');
 
     useEffect(() => {
         setProcessing(true);
@@ -27,12 +28,13 @@ const Main = (props: Props & RouteComponentProps) =>
                 posts.push(Post.createFromData(post.data() as PostInterface, post.id));
             })
             setPosts(posts);
-            props.setTitle('Blog');
         });
     }, []);
 
     return <>
-        {posts.map(post => <PostView post={post} key={post.url}/>)}
+        <Grid container>
+            {posts.map(post => <PostView post={post} key={post.url}/>)}
+        </Grid>
         {processing && <div className="line">
             <LinearProgress color="secondary"/>
         </div>}
@@ -40,8 +42,7 @@ const Main = (props: Props & RouteComponentProps) =>
 }
 
 export default connect(
-    null,
-    { setTitle }
+    null
 )(Main);
 
 // private readonly KEY = '8c98e299f73540a694ea5dfba8bf3a1b';

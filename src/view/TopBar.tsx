@@ -1,4 +1,3 @@
-import CssBaseline from "@material-ui/core/CssBaseline";
 import {AppBar, Button, Fab, Typography} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,20 +12,18 @@ import {firebase} from "../config/firebase";
 import {MainMenu} from "./components/MainMenu";
 import MenuAfterLogin from "./components/MenuAfterLogin";
 import {ScrollTop} from "./components/ScrollTop";
+import {Link} from "@reach/router";
+import config from "../config/config";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     title: {
         flexGrow: 1,
     },
-    app: {
-        width: '100%'
-    }
 }));
 
 type Props = {
     user: User | null,
-    setUser(user: User | null): void,
-    title: string
+    setUser(user: User | null): void
 }
 
 const TopBar = (props: Props) => {
@@ -35,7 +32,7 @@ const TopBar = (props: Props) => {
 
     useEffect(() => {
          return firebase.auth().onAuthStateChanged(user => {
-             if(!user) {props.setUser(null)};
+             if(!user) {props.setUser(null)}
              props.setUser(user)});
     }, []);
 
@@ -44,19 +41,14 @@ const TopBar = (props: Props) => {
         const result = await firebase.auth().signInWithPopup(provider);
         props.setUser(result.user);
     }
-    useEffect(() => {
-        document.title = props.title;
-    }, [props.title])
-
     return (
         <>
-            <CssBaseline/>
-            <AppBar  position="sticky" className={classes.app}>
+            <AppBar  position="sticky" >
                 <Container>
                     <Toolbar>
                         <MainMenu/>
                         <Typography variant="h6" className={classes.title}>
-                            {props.title}
+                            <Link to="/">{config.companyName}</Link>
                         </Typography>
                         {props.user ?
                             <MenuAfterLogin/>:
@@ -75,7 +67,7 @@ const TopBar = (props: Props) => {
 }
 
 export default connect(
-    ({user, title}: BlogReducers) => ({user, title}),
+    ({user}: BlogReducers) => ({user}),
     {setUser}
 )(TopBar);
 

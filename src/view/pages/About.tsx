@@ -1,15 +1,15 @@
 import React from "react";
 import {RouteComponentProps} from "@reach/router";
 import {connect} from "react-redux";
-import {setTitle} from "../../redux/actions";
+import {useTitle} from "../../utils/useTitle";
 
 interface Props {
-	setTitle(title: string): void
+
 }
 
 const About = (props: Props & RouteComponentProps) => {
 
-	props.setTitle('About');
+	useTitle('About');
 
 	return (
 		<>
@@ -19,6 +19,5 @@ const About = (props: Props & RouteComponentProps) => {
 }
 
 export default connect(
-	null,
-	{ setTitle }
+	null
 )(About);

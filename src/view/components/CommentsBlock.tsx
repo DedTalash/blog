@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {db} from "../../config/firebase";
-import {createStyles, LinearProgress, PropTypes, Theme} from "@material-ui/core";
+import {createStyles, LinearProgress, Theme} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -8,9 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import {setTitle} from "../../redux/actions";
 import {User} from "firebase";
-import ol from "@material-ui/core/List";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
@@ -31,13 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             maxwidth: 'auto!important',
             backgroundColor: theme.palette.background.paper
-        },
-        commentList: {
-            listStyle: 'none',
-        },
-        commentContainer: {
-            display: 'list-item',
-            align: 'inherit'
         },
         avatar: {
             display: 'inline-block',
@@ -89,7 +80,8 @@ const useStyles = makeStyles((theme: Theme) =>
             verticalAlign: 'baseline',
             fontFamily: 'inherit',
             fontStyle: 'inherit',
-            fontWeight: 'inherit'
+            fontWeight: 'inherit',
+            wordBreak: 'break-all'
         },
         commentArea: {
             display: 'flex',
@@ -144,32 +136,29 @@ const CommentBlock = (props: Props) => {
         <>
             <Container className={classes.root}>
                 <h3>Comments {size} </h3>
-                {comments.map(comment =>
-                    <ol className={classes.commentList}>
-                        <li className={classes.commentContainer}>
-                            <div className={classes.commentArea}>
-                                //TODO check author message
-                                <ListItemAvatar className={classes.avatar}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
-                                </ListItemAvatar>
-                                <div className={classes.commentContent}>
-                                    <div className={classes.commentAuthor}>
-								        <span className={classes.commentAuthorName}>
-									    {user?.displayName}
-								        </span>
-                                        <span className={classes.commentData}>
-									    {new Date(comment.date).toLocaleString()}
-								        </span>
-                                    </div>
-                                    <Typography className={classes.commentText}>
-                                        {comment.comment}
-                                    </Typography>
-                                </div>
+                {comments.map((comment, index) =>
+                    <div key={index} className={classes.commentArea}>
+                        {/*TODO check author message*/}
+                        <ListItemAvatar className={classes.avatar}>
+                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                        </ListItemAvatar>
+                        <div className={classes.commentContent}>
+                            <div className={classes.commentAuthor}>
+                                <span className={classes.commentAuthorName}>
+                                {user?.displayName}
+                                </span>
+                                <span className={classes.commentData}>
+                                {new Date(comment.date).toLocaleString()}
+                                </span>
                             </div>
-                        </li>
-                    </ol>
+                            <Typography className={classes.commentText}>
+                                {comment.comment}
+                            </Typography>
+                        </div>
+                    </div>
                 )}
-                <Divider variant="inset" component="li"/>
+
+                <Divider variant="inset"/>
 
                 <form autoComplete="off" onSubmit={handleSubmit}>
                     <TextField label="Enter your comment"
@@ -201,8 +190,5 @@ const CommentBlock = (props: Props) => {
     )
 }
 export default connect(
-    ({user}: BlogReducers) => ({user}),
-    {setTitle}
+    ({user}: BlogReducers) => ({user})
 )(CommentBlock);
-
-
