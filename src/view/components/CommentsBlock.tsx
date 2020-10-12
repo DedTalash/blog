@@ -21,7 +21,7 @@ interface Props {
 interface Comment {
     id: string,
     comment: string,
-    date: string
+    date:Date
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -105,7 +105,8 @@ const CommentBlock = (props: Props) => {
         event.preventDefault();
         db.collection('posts').doc(postId).collection('comments').add({
             comment,
-            date: new Date().toString()
+            date: new Date(),
+            //    user: db.collection("users").doc(user.uid)
         });
         setComment('');
     }
@@ -120,6 +121,7 @@ const CommentBlock = (props: Props) => {
                 comments.push({
                     ...comment.data(),
                     id: comment.id
+
                 } as Comment);
             })
             setComments(comments);
@@ -148,7 +150,8 @@ const CommentBlock = (props: Props) => {
                                 {user?.displayName}
                                 </span>
                                 <span className={classes.commentData}>
-                                {new Date(comment.date).toLocaleString()}
+                                {/*{new Date (comment.date.seconds*1000).toLocaleTimeString()}*/}
+                                {/*{formatDate (comment.date, "h:mm A")}*/}
                                 </span>
                             </div>
                             <Typography className={classes.commentText}>

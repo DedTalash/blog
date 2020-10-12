@@ -46,7 +46,6 @@ const Post = (props: Props & RouteComponentProps) => {
     const classes = useStyles();
     const [likesValue, setLikesValue] = useState<number>(0)
     const [canLike, setCanLike] = useState<boolean>(false)
-
     const [post, setPost] = useState<BlogPost | null>(null);
 
     useTitle(post ? post.title : config.companyName);
