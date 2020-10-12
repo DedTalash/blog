@@ -1,9 +1,8 @@
 import {combineReducers, createStore} from "redux";
-import userReducer from "./userReducer";
-import {User} from "firebase";
+import userReducer, {User} from "./userReducer";
 
 export type BlogReducers = {
-    user: User|null
+    user: User
 }
 
 const reducers = combineReducers<BlogReducers>({

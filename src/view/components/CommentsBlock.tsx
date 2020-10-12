@@ -8,14 +8,14 @@ import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import {User} from "firebase";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import {User} from "../../redux/userReducer";
 
 interface Props {
     postId: string,
-    user?: User | null
+    user: User
 }
 
 interface Comment {
@@ -147,7 +147,7 @@ const CommentBlock = (props: Props) => {
                         <div className={classes.commentContent}>
                             <div className={classes.commentAuthor}>
                                 <span className={classes.commentAuthorName}>
-                                {user?.displayName}
+                                {user?.name}
                                 </span>
                                 <span className={classes.commentData}>
                                 {/*{new Date (comment.date.seconds*1000).toLocaleTimeString()}*/}

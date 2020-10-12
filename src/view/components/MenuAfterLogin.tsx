@@ -8,8 +8,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import {firebase} from "../../config/firebase";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import {User} from "firebase";
 import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp';
+import {User} from "../../redux/userReducer";
 
 const StyledMenu = withStyles({
     paper: {
@@ -32,7 +32,7 @@ const StyledMenu = withStyles({
 ));
 
 interface Props {
-    user: User|null
+    user: User
 }
 
 const StyledMenuItem = withStyles((theme) => ({
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         <>
             <IconButton  edge="start" onClick={handleClick}   className={classes.menuButton} color="inherit"
                         aria-label="menu">
-                {props.user?.displayName}
+                {props.user?.name}
                 <ArrowDropDownSharpIcon/>
             </IconButton>
 

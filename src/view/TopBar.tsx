@@ -1,12 +1,11 @@
 import {AppBar, Button, Fab, Typography} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import {connect} from "react-redux";
 import {BlogReducers} from "../redux/store";
-import {User} from "firebase";
 import {setUser} from "../redux/actions";
 import {db, firebase} from "../config/firebase";
 import {MainMenu} from "./components/MainMenu";
@@ -14,6 +13,7 @@ import MenuAfterLogin from "./components/MenuAfterLogin";
 import {ScrollTop} from "./components/ScrollTop";
 import {Link} from "@reach/router";
 import config from "../config/config";
+import {User} from "../redux/userReducer";
 
 const useStyles = makeStyles(() => ({
     title: {
@@ -22,8 +22,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-    user: User | null,
-    setUser(user: User | null): void
+    user: User,
+    setUser(user: User): void
 }
 
 const TopBar = (props: Props) => {
@@ -31,26 +31,24 @@ const TopBar = (props: Props) => {
     const classes = useStyles();
 
     useEffect(() => {
-         return firebase.auth().onAuthStateChanged(user => {
-             if(!user) {props.setUser(null)}
-             props.setUser(user)});
-            // db.collection("users").doc(props.user?.uid).set(props.user?, {merge: true})
+        return firebase.auth().onAuthStateChanged((user: any) => {
+            if (user) {
+                user = {
+                    name: user.displayName,
+                    photo: user.photoURL,
+                    id: user.uid,
+                    email: user.email
+                };
+                db.collection('users').doc(user.id).set(user, {merge: true})
+            }
+            props.setUser(user);
+        });
     }, []);
 
-    const [authError, setAuthError] = useState(null)
     const handleSignIn = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        try{
-            const result = await firebase.auth().signInWithPopup(provider);
-            props.setUser(result.user);
-        }
-        catch (error) {
-            setAuthError(error)
-        }
-
+        await firebase.auth().signInWithPopup(provider)
     }
-    // @ts-ignore
-    // @ts-ignore
     return (
         <>
             <AppBar  position="sticky" >
@@ -62,16 +60,11 @@ const TopBar = (props: Props) => {
                         </Typography>
                         {props.user ?
                             <div>
-                                <img
-                                    alt="whatever"
-                                    // src={props.user.photoURL}
-                                />
                                 <MenuAfterLogin/>
                             </div>
                                 :
                             <div>
                                 <Button onClick={handleSignIn} color="inherit">Login</Button>
-                                {/*{authError&& (<Typography>{authError.message} </Typography>)}*/}
                             </div>
                         }
                     </Toolbar>

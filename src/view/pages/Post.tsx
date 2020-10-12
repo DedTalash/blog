@@ -6,16 +6,16 @@ import {Breadcrumbs, CardMedia, createStyles, LinearProgress, Theme, Typography}
 import {connect} from "react-redux";
 import CommentBlock from "../components/CommentsBlock";
 import {BlogReducers} from "../../redux/store";
-import {User} from "firebase";
 import Container from "@material-ui/core/Container";
 import {ThumbDown, ThumbUp} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTitle} from "../../utils/useTitle";
 import config from "../../config/config";
+import {User} from "../../redux/userReducer";
 
 interface Props {
     postId?: string,
-    user?: User | null
+    user: User
 }
 interface Like {
     type: boolean,
