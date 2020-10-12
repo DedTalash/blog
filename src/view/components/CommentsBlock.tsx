@@ -5,23 +5,15 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Avatar from "@material-ui/core/Avatar";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
 import {User} from "../../redux/userReducer";
+import PostComment, {Comment} from "./PostComment";
 
 interface Props {
     postId: string,
     user: User
-}
-
-interface Comment {
-    id: string,
-    comment: string,
-    date:Date
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,64 +22,12 @@ const useStyles = makeStyles((theme: Theme) =>
             maxwidth: 'auto!important',
             backgroundColor: theme.palette.background.paper
         },
-        avatar: {
-            display: 'inline-block',
-            float: 'left',
-            width: 80,
-            height: 80,
-            marginRight: 30,
-            webkitBorderRadius: '50%',
-            moBorderRadius: '50%',
-            msBorderRadius: '50%',
-            borderRadius: '50%'
-        },
         spacedBlock: {
             marginBottom: theme.spacing(2)
         },
         buttonContainer: {
             marginBottom: theme.spacing(2),
             textAlign: 'right'
-        },
-        commentContent: {
-            position: 'relative',
-            width: '100%',
-            display: 'block'
-        },
-        commentAuthor: {
-            display: 'inline-block',
-            width: '100%'
-        },
-        commentAuthorName: {
-            fontWeight: 600,
-            margin: '5px 0 8px',
-            float: 'left',
-            fontSize: 14
-        },
-        commentData: {
-            float: 'right',
-            textAlign: 'right',
-            fontSize: 10,
-            lineHeight: '2.5',
-            textTransform: 'uppercase',
-            letterSpacing: '.1em'
-        },
-        commentText: {
-            margin: 0,
-            padding: 0,
-            border: 0,
-            outline: 0,
-            font: 'inherit',
-            verticalAlign: 'baseline',
-            fontFamily: 'inherit',
-            fontStyle: 'inherit',
-            fontWeight: 'inherit',
-            wordBreak: 'break-all'
-        },
-        commentArea: {
-            display: 'flex',
-            marginBottom: 30,
-            paddingBottom: 30,
-            borderBottom: '1px solid #f1f1f1'
         },
     }),
 );
@@ -103,16 +43,16 @@ const CommentBlock = (props: Props) => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        db.collection('posts').doc(postId).collection('comments').add({
+        db.collection(`posts/${postId}/comments`).add({
             comment,
             date: new Date(),
-            //    user: db.collection("users").doc(user.uid)
+            user:db.collection('users').doc(user?.id)
         });
         setComment('');
     }
     useEffect(() => {
         setProcessing(true);
-        return db.collection('posts').doc(postId).collection('comments')
+        return db.collection(`posts/${postId}/comments`)
             .orderBy('date').onSnapshot(snapshot => {
             const comments: Comment[] = [];
             const size = snapshot.size;
@@ -120,14 +60,14 @@ const CommentBlock = (props: Props) => {
             snapshot.forEach((comment) => {
                 comments.push({
                     ...comment.data(),
-                    id: comment.id
-
+                    id: comment.id,
                 } as Comment);
             })
             setComments(comments);
             setSize(size)
         });
-    }, []);
+    }, [postId]);
+
 
     const handleChange = (event: any) => {
         setComment(event.target.value);
@@ -139,26 +79,7 @@ const CommentBlock = (props: Props) => {
             <Container className={classes.root}>
                 <h3>Comments {size} </h3>
                 {comments.map((comment, index) =>
-                    <div key={index} className={classes.commentArea}>
-                        {/*TODO check author message*/}
-                        <ListItemAvatar className={classes.avatar}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
-                        </ListItemAvatar>
-                        <div className={classes.commentContent}>
-                            <div className={classes.commentAuthor}>
-                                <span className={classes.commentAuthorName}>
-                                {user?.name}
-                                </span>
-                                <span className={classes.commentData}>
-                                {/*{new Date (comment.date.seconds*1000).toLocaleTimeString()}*/}
-                                {/*{formatDate (comment.date, "h:mm A")}*/}
-                                </span>
-                            </div>
-                            <Typography className={classes.commentText}>
-                                {comment.comment}
-                            </Typography>
-                        </div>
-                    </div>
+                    <PostComment key={index} comment={comment}/>
                 )}
 
                 <Divider variant="inset"/>

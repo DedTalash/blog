@@ -5,10 +5,11 @@ import {Router} from "@reach/router";
 import About from "./view/pages/About";
 import {Container} from "@material-ui/core";
 import Post from "./view/pages/Post";
-import {Wrong} from "./view/pages/Wrong";
 import "./app.css";
 import {useTitle} from "./utils/useTitle";
 import config from "./config/config";
+import Management from "./view/pages/Management";
+import Edit from "./view/pages/Edit";
 
 export default function App()
 {
@@ -21,7 +22,8 @@ export default function App()
 					<Main path="/" />
 					<About path="/about" />
 					<Post path="/blog/:postId" />
-					<Wrong path="/404"/>
+					<Edit path="/management/create" />
+					<Management path="/management"/>
 				</Router>
 			</Container>
 		</Container>

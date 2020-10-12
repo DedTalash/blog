@@ -19,7 +19,8 @@ interface Props {
 }
 interface Like {
     type: boolean,
-    date: string
+    date: string,
+    uid: string
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -63,14 +64,14 @@ const Post = (props: Props & RouteComponentProps) => {
                     value--;
                 }
 
-                // if (false) {
-                //     canLike = false;
-                // }
+                if (userLike.uid === props.user?.id) {
+                    canLike = false;
+                }
             })
             setLikesValue(value);
             setCanLike(canLike);
         });
-    }, [postId]);
+    }, [postId, props.user?.id]);
 
     useEffect(() => {
         return db.doc(`posts/${postId}`).onSnapshot((post) => {
@@ -90,7 +91,8 @@ const Post = (props: Props & RouteComponentProps) => {
     const handleLike = (type: boolean) => {
         db.collection('posts').doc(postId).collection('likes').add({
             type,
-            date: new Date().toString()
+            date: new Date().toString(),
+            uid: props.user?.id
         });
     }
 

@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
                     <Link className={classes.padding} onClick={handleClose} to="/" > Personal Jesus </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link className={classes.padding} onClick={handleClose} to="/about" > Commemts </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/management" >Management</Link>
                 </StyledMenuItem>
                 <Button className={classes.padding} onClick={handleSignOut} color="inherit">Logout</Button>
             </StyledMenu>
