@@ -1,71 +1,18 @@
 import React from "react";
-import {Button, IconButton, MenuProps, withStyles} from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import blue from "@material-ui/core/colors/blue";
-import MenuItem from "@material-ui/core/MenuItem";
+import {Button, IconButton} from "@material-ui/core";
 import {Link} from "@reach/router";
-import {makeStyles} from "@material-ui/core/styles";
-import {firebase} from "../../config/firebase";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
 import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp';
 import {User} from "../../redux/userReducer";
-
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props: MenuProps) => (
-    <Menu
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
+import {StyledMenu, StyledMenuItem, useStyles} from "./MenuStyles";
+import {firebase} from "../../config/firebase";
 
 interface Props {
     user: User
 }
 
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:hover': {
-            backgroundColor: blue[500],
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
-        paddingLeft: 0,
-        paddingRight: 0,
-    },
-}))(MenuItem);
-const useStyles = makeStyles((theme) => ({
-    root: {
-        position: 'static',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        fontSize: 14
-    },
-    padding: {
-        paddingLeft: 16,
-        paddingRight: 16,
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
-    const MenuAfterLogin =(props:Props) => {
+const MenuAfterLogin = (props: Props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -74,12 +21,14 @@ const useStyles = makeStyles((theme) => ({
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     function handleSignOut() {
         firebase.auth().signOut();
     }
-    return(
+
+    return (
         <>
-            <IconButton  edge="start" onClick={handleClick}   className={classes.menuButton} color="inherit"
+            <IconButton edge="start" onClick={handleClick} className={classes.menuButton} color="inherit"
                         aria-label="menu">
                 {props.user?.name}
                 <ArrowDropDownSharpIcon/>
@@ -95,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
                     <Link className={classes.padding} onClick={handleClose} to="/"> Blog </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link className={classes.padding} onClick={handleClose} to="/" > Personal Jesus </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/"> Personal Jesus </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link className={classes.padding} onClick={handleClose} to="/management" >Management</Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/management">Management</Link>
                 </StyledMenuItem>
                 <Button className={classes.padding} onClick={handleSignOut} color="inherit">Logout</Button>
             </StyledMenu>
@@ -108,6 +57,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default connect(
     ({user}: BlogReducers) => ({user}),
-    { }
+    {}
 )
 (MenuAfterLogin)

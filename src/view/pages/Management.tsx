@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import {Create, Delete} from "@material-ui/icons";
+import {LinearProgress} from "@material-ui/core";
 
 const useStyles = makeStyles({
 	table: {
@@ -48,6 +49,7 @@ const Management = (props:  RouteComponentProps) => {
 	}
 
 	return (
+
 		<TableContainer component={Paper}>
 			<Table className={classes.table} aria-label="simple table">
 				<TableHead>
@@ -75,6 +77,9 @@ const Management = (props:  RouteComponentProps) => {
 					))}
 				</TableBody>
 			</Table>
+			{processing && <div className="line">
+				<LinearProgress color="secondary"/>
+			</div>}
 		</TableContainer>
 	);
 };

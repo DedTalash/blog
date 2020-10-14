@@ -1,65 +1,10 @@
 import React from "react";
-import {IconButton, MenuProps, withStyles} from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import blue from "@material-ui/core/colors/blue";
-import MenuItem from "@material-ui/core/MenuItem";
+import {IconButton} from "@material-ui/core";
 import {Link} from "@reach/router";
 import MenuIcon from "@material-ui/icons/Menu";
-import {makeStyles} from "@material-ui/core/styles";
+import {StyledMenu, StyledMenuItem, useStyles} from "./MenuStyles";
 
-
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props: MenuProps) => (
-    <Menu
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
-
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:hover': {
-            backgroundColor: blue[500],
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
-        padding: 0,
-    },
-
-}))(MenuItem);
-const useStyles = makeStyles((theme) => ({
-    root: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    padding: {
-        padding: '6px 16px',
-        display: 'block',
-        width: '100%'
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
-
-export const MainMenu =() => {
+export const MainMenu = () => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -68,10 +13,10 @@ export const MainMenu =() => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    return(
+    return (
         <>
             <IconButton edge="end" onClick={handleClick} className={classes.menuButton} color="inherit"
-                        aria-label="menu"  aria-disabled='true'>
+                        aria-label="menu" aria-disabled='true'>
                 <MenuIcon/>
             </IconButton>
             <StyledMenu
@@ -80,11 +25,11 @@ export const MainMenu =() => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem >
-                    <Link className={classes.padding} onClick={handleClose}  to="/"> Blog </Link>
+                <StyledMenuItem>
+                    <Link className={classes.padding} onClick={handleClose} to="/"> Blog </Link>
                 </StyledMenuItem>
                 <StyledMenuItem>
-                    <Link className={classes.padding} onClick={handleClose} to="/about" > About </Link>
+                    <Link className={classes.padding} onClick={handleClose} to="/about"> About </Link>
                 </StyledMenuItem>
             </StyledMenu>
         </>

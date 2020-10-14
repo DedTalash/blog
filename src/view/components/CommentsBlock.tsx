@@ -46,7 +46,7 @@ const CommentBlock = (props: Props) => {
         db.collection(`posts/${postId}/comments`).add({
             comment,
             date: new Date(),
-            user:db.collection('users').doc(user?.id)
+            user: db.collection('users').doc(user?.id)
         });
         setComment('');
     }
