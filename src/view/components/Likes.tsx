@@ -49,17 +49,16 @@ const useStyles = makeStyles((theme: Theme) =>
         const [canLike, setCanLike] = useState<boolean>(false)
         const classes = useStyles();
 
-
-
         const handleLike = (type: boolean) => {
-        db.collection('posts').doc(postId).collection('likes').add({
-            type,
-            date: new Date().toString(),
-            uid: props.user?.id
-        });
-    }
+            db.collection(`posts/${postId}/likes`).add({
+                type,
+                date: new Date().toString(),
+                uid: props.user?.id
+            });
+        }
+
         useEffect(() => {
-            return db.collection('posts').doc(postId).collection('likes').onSnapshot(snapshot => {
+            return db.collection(`posts/${postId}/likes`).onSnapshot(snapshot => {
                 let canLike = true;
                 let value = 0;
                 snapshot.forEach((like) => {

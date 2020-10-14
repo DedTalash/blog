@@ -79,7 +79,7 @@ const CommentBlock = (props: Props) => {
             <Container className={classes.root}>
                 <h3>Comments {size} </h3>
                 {comments.map((comment, index) =>
-                    <PostComment key={index} comment={comment}/>
+                    <PostComment key={index} postId={postId} comment={comment}/>
                 )}
 
                 <Divider variant="inset"/>

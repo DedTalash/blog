@@ -6,6 +6,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import {createStyles, Theme} from "@material-ui/core";
 import {db} from "../../config/firebase";
 import {ThumbDown, ThumbUp} from "@material-ui/icons";
+import {connect} from "react-redux";
+import {BlogReducers} from "../../redux/store";
+import {User} from "../../redux/userReducer";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,7 +87,9 @@ export interface Comment {
 }
 
 interface Props {
-	comment: Comment
+	comment: Comment,
+	user: User,
+	postId: string
 }
 interface Like {
 	type: boolean,
@@ -109,18 +114,16 @@ const PostComment = (props: Props) => {
 	const author = useDoc(props.comment.user.path);
 	const [likesValue, setLikesValue] = useState<number>(0)
 	const [canLike, setCanLike] = useState<boolean>(false)
+
 	const handleLike = (type: boolean) => {
-		db.doc(props.comment.user.path).collection('comments').
-		doc(props.comment.id).collection('likes').add({
+		db.collection(`posts/${props.postId}/comments/${props.comment.id}/likes`).add({
 			type,
 			date: new Date().toString(),
-			uid: props.comment.user?.id
-
+			uid: props.user?.id
 		});
 	}
 	useEffect(() => {
-		return db.doc(props.comment.user.path).collection('comments')
-			.doc(props.comment.id).collection('likes').onSnapshot(snapshot => {
+		return db.collection(`posts/${props.postId}/comments/${props.comment.id}/likes`).onSnapshot(snapshot => {
 				let canLike = true;
 				let value = 0;
 				snapshot.forEach((like) => {
@@ -132,14 +135,14 @@ const PostComment = (props: Props) => {
 						value--;
 					}
 
-					if (userLike.uid === props.comment.user?.id) {
+					if (userLike.uid === props.user?.id) {
 						canLike = false;
 					}
 				})
 				setLikesValue(value);
 				setCanLike(canLike);
 			});
-	}, [props.comment.id,props.comment.user.id]);
+	}, [props.comment.id, props.user?.id]);
 	return (
 		<div className={classes.commentArea}>
 			<ListItemAvatar className={classes.avatar}>
@@ -169,4 +172,6 @@ const PostComment = (props: Props) => {
 	);
 };
 
-export default PostComment;
+export default connect(
+	({user}: BlogReducers) => ({ user })
+)(PostComment);

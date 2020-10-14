@@ -8,12 +8,13 @@ import {connect} from "react-redux";
 import {BlogReducers} from "../redux/store";
 import {setUser} from "../redux/actions";
 import {db, firebase} from "../config/firebase";
-import {MainMenu} from "./components/MainMenu";
-import MenuAfterLogin from "./components/MenuAfterLogin";
 import {ScrollTop} from "./components/ScrollTop";
-import {Link} from "@reach/router";
+import {Link, navigate} from "@reach/router";
 import config from "../config/config";
 import {User} from "../redux/userReducer";
+import DropDown from "./components/DropDown";
+import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles(() => ({
     title: {
@@ -54,14 +55,25 @@ const TopBar = (props: Props) => {
             <AppBar  position="sticky" >
                 <Container>
                     <Toolbar>
-                        <MainMenu/>
+                        <DropDown items={[
+                            ['Blog', () => navigate('/')],
+                            ['About', () => navigate('/about')],
+                        ]}>
+                            <MenuIcon/>
+                        </DropDown>
                         <Typography variant="h6" className={classes.title}>
                             <Link to="/">{config.companyName}</Link>
                         </Typography>
                         {props.user ?
-                            <div>
-                                <MenuAfterLogin/>
-                            </div>
+                            <DropDown items={[
+                                ['Blog', () => navigate('/')],
+                                ['Personal Jesus', () => navigate('/')],
+                                ['Management', () => navigate('/management')],
+                                ['Logout', () => firebase.auth().signOut()],
+                            ]}>
+                                {props.user?.name}
+                                <ArrowDropDownSharpIcon />
+                            </DropDown>
                                 :
                             <div>
                                 <Button onClick={handleSignIn} color="inherit">Login</Button>

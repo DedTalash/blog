@@ -49,38 +49,48 @@ const Management = (props:  RouteComponentProps) => {
 	}
 
 	return (
-
-		<TableContainer component={Paper}>
-			<Table className={classes.table} aria-label="simple table">
-				<TableHead>
-					<TableRow>
-						<TableCell>Title</TableCell>
-						<TableCell>Author</TableCell>
-						<TableCell/>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{posts.map(post => (
-						<TableRow key={post.id}>
-							<TableCell component="th" scope="row">
-								{post.title}
-							</TableCell>
-							<TableCell>{post.author}</TableCell>
-							<TableCell>
-								<ButtonGroup variant="contained" color="primary">
-									<Link to="/management/create"><Create/></Link>
-									<Button onClick={handleDelete.bind(null, post.id)}><Delete/></Button>
-								</ButtonGroup>
-							</TableCell>
-							{/*<TableCell>{post.publishedAt}</TableCell>*/}
+		<>
+			<Link to="/management/create"  role="button" >
+				<button type="button">
+					Add new post
+				</button>
+			</Link>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<TableContainer component={Paper}>
+				<Table className={classes.table} aria-label="simple table">
+					<TableHead>
+						<TableRow>
+							<TableCell>Title</TableCell>
+							<TableCell>Author</TableCell>
+							<TableCell/>
 						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-			{processing && <div className="line">
-				<LinearProgress color="secondary"/>
-			</div>}
-		</TableContainer>
+					</TableHead>
+					<TableBody>
+						{posts.map(post => (
+							<TableRow key={post.id}>
+								<TableCell component="th" scope="row">
+									{post.title}
+								</TableCell>
+								<TableCell>{post.author}</TableCell>
+								<TableCell>
+									<ButtonGroup variant="contained" color="primary">
+										<Link to={`/management/edit/${post.id}`}><Create/></Link>
+										<Button onClick={handleDelete.bind(null, post.id)}><Delete/></Button>
+									</ButtonGroup>
+								</TableCell>
+								{/*<TableCell>{post.publishedAt}</TableCell>*/}
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+				{processing && <div className="line">
+					<LinearProgress color="secondary"/>
+				</div>}
+			</TableContainer>
+		</>
 	);
 };
 

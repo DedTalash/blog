@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {RouteComponentProps} from "@reach/router";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {EditorState, convertToRaw} from "draft-js";
+import {EditorState, ContentState, convertToRaw} from "draft-js";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import 'date-fns';
@@ -16,7 +15,7 @@ import {Button} from "@material-ui/core";
 import Post from "../../model/Post";
 
 interface Props {
-	post?: Post
+	post: Post
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,15 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-const Edit = (props:  RouteComponentProps) => {
+const PostEditor = ({post}: Props) => {
 	const classes = useStyles();
 
-	const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-	const [text, setText] = useState(() => EditorState.createEmpty());
-	const [title, setTitle] = useState('');
-	const [alias, setAlias] = useState('');
-	const [photo, setPhoto] = useState('');
-
+	const [selectedDate, setSelectedDate] = useState<Date | null>(post.publishedAt);
+	const [text, setText] = useState(() => EditorState.createWithContent(
+		ContentState.createFromText(''))
+	);
+	const [title, setTitle] = useState(post.title);
+	const [alias, setAlias] = useState(post.url);
+	const [photo, setPhoto] = useState(post.urlToImage);
 
 	function handleSubmit(event: any) {
 		event.preventDefault();
@@ -53,7 +53,6 @@ const Edit = (props:  RouteComponentProps) => {
 			text: convertToRaw(text.getCurrentContent())
 			}
 		)
-
 	}
 
 	return (
@@ -122,5 +121,5 @@ const Edit = (props:  RouteComponentProps) => {
 	);
 };
 
-export default Edit;
+export default PostEditor;
 

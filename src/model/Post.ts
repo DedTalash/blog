@@ -28,6 +28,21 @@ export default class Post
         public id: string
     ) {}
 
+    public static createEmpty(): Post
+    {
+        return new Post(
+            '',
+            '',
+            '',
+            new Date('10/14/2025'),
+            {id: '', name: ''},
+            'swubwelghboghbekgu',
+            '',
+            '',
+            ''
+        );
+    }
+
     public static createFromData(data: PostInterface, id: string): Post {
         return new Post(
             data.author,

@@ -31,7 +31,7 @@ const Post = (props: Props & RouteComponentProps) => {
                     setPost(newPost);
                 }
             })
-    }, [])
+    }, [postId])
 
     if (!post) {
         return <LinearProgress color="secondary"/>

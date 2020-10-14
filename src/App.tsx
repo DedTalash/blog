@@ -9,7 +9,8 @@ import "./app.css";
 import {useTitle} from "./utils/useTitle";
 import config from "./config/config";
 import Management from "./view/pages/Management";
-import Edit from "./view/pages/Edit";
+import CreatePost from "./view/pages/CreatePost";
+import EditPost from "./view/pages/EditPost";
 
 export default function App()
 {
@@ -22,7 +23,8 @@ export default function App()
 					<Main path="/" />
 					<About path="/about" />
 					<Post path="/blog/:postId" />
-					<Edit path="/management/create" />
+					<CreatePost path="/management/create" />
+					<EditPost path="/management/edit/:postId" />
 					<Management path="/management"/>
 				</Router>
 			</Container>
