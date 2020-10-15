@@ -81,11 +81,7 @@ interface Props {
 	user: User,
 	postId: string
 }
-interface Like {
-	type: boolean,
-	date: string,
-	uid: string
-}
+
 function useDoc(path: string) {
 	const [doc, setDoc] = useState()
 	useEffect(() => {
