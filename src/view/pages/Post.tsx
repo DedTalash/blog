@@ -11,34 +11,47 @@ import {useTitle} from "../../utils/useTitle";
 import config from "../../config/config";
 import {User} from "../../redux/userReducer";
 import Likes from "../components/Likes";
+import {makeStyles} from "@material-ui/core/styles";
 
 interface Props {
-    postId?: string,
+    postAlias?: string,
     user: User
 }
 
-const Post = (props: Props & RouteComponentProps) => {
-    const {postId} = props;
+const useStyles = makeStyles((theme) =>
+    ({
+            photo: {
+                height: 300,
+                width: '100%'
+            }
+        }
+    ));
+
+const Post = ({postAlias, user}: Props & RouteComponentProps) => {
     const [post, setPost] = useState<BlogPost | null>(null);
+
+    const classes = useStyles();
 
     useTitle(post ? post.title : config.companyName);
 
     useEffect(() => {
-        return db.doc(`posts/${postId}`)
-            .onSnapshot((post) => {
-                if (post.exists) {
-                    const newPost = BlogPost.createFromData(post.data() as PostInterface, post.id);
-                    setPost(newPost);
-                }
+        return db.collection(`posts`)
+            .where('alias', '==', postAlias)
+            .onSnapshot((snapshot) => {
+                snapshot.forEach((post) => {
+                    if (post.exists) {
+                        const newPost = BlogPost.createFromData(post.data() as PostInterface, post.id);
+                        setPost(newPost);
+                    }
+                })
             })
-    }, [postId])
+    }, [postAlias])
 
     if (!post) {
         return <LinearProgress color="secondary"/>
     }
 
     return <>
-
         <Container>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link color="inherit" to="/">
@@ -46,10 +59,10 @@ const Post = (props: Props & RouteComponentProps) => {
                 </Link>
                 <Typography color="textPrimary">{post.title}</Typography>
             </Breadcrumbs>
-            <CardMedia image={post.urlToImage}/>
             <h1>{post.title}</h1>
-            <p>{post.content}</p>
-             <Likes user={props.user} depends={postId} path={`posts/${postId}/likes`}/>
+            <CardMedia className={classes.photo} image={post.photo}/>
+            <div dangerouslySetInnerHTML={{__html: post.content}}/>
+            <Likes user={user} path={`posts/${post.id}/likes`}/>
         </Container>
         <Container>
             <CommentBlock postId={post.id}/>

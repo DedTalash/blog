@@ -22,7 +22,7 @@ export default function App()
 				<Router>
 					<Main path="/" />
 					<About path="/about" />
-					<Post path="/blog/:postId" />
+					<Post path="/blog/:postAlias" />
 					<CreatePost path="/management/create" />
 					<EditPost path="/management/edit/:postId" />
 					<Management path="/management"/>

@@ -74,7 +74,7 @@ const Management = (props:  RouteComponentProps) => {
 								<TableCell component="th" scope="row">
 									{post.title}
 								</TableCell>
-								<TableCell>{post.author}</TableCell>
+
 								<TableCell>
 									<ButtonGroup variant="contained" color="primary">
 										<Link to={`/management/edit/${post.id}`}><Create/></Link>

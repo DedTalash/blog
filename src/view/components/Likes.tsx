@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 setLikesValue(value);
                 setCanLike(canLike);
             });
-        }, [props.depends, props.user?.id]);
+        }, [props.path, props.user]);
     return (
         <div>
             <div className={classes.likes}>

@@ -33,7 +33,7 @@ const Main = (props: Props & RouteComponentProps) =>
 
     return <>
         <Grid container>
-            {posts.map(post => <PostView post={post} key={post.url}/>)}
+            {posts.map(post => <PostView post={post} key={post.alias}/>)}
         </Grid>
         {processing && <div className="line">
             <LinearProgress color="secondary"/>

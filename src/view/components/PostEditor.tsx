@@ -13,10 +13,18 @@ import {
 } from '@material-ui/pickers';
 import {Button} from "@material-ui/core";
 import Post from "../../model/Post";
+import {connect} from "react-redux";
+import {BlogReducers} from "../../redux/store";
+import {User} from "../../redux/userReducer";
+
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import {db} from "../../config/firebase";
+import {navigate} from "@reach/router";
 
 interface Props {
-	post: Post
+	post: Post,
+	user: User
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,43 +41,52 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-const PostEditor = ({post}: Props) => {
+const PostEditor = ({post, user}: Props) => {
 	const classes = useStyles();
-	console.log("e", post)
-	const [selectedDate, setSelectedDate] = useState<Date | null>(post.publishedAt);
-	const [text, setText] = useState(() => EditorState.createWithContent(
-		ContentState.createFromText(''))
-	);
+
+	// ###################
+	const contentBlock = htmlToDraft(post.content);
+
+	const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+	const editorState = EditorState.createWithContent(contentState);
+	// ###################
+
+	const [content, setContent] = useState(editorState);
+	const [date, setDate] = useState<Date | null>(post.date);
 	const [title, setTitle] = useState(post.title);
-	const [alias, setAlias] = useState(post.url);
-	const [author, setAuthor] = useState(post.author);
-	const [photo, setPhoto] = useState(post.urlToImage);
+	const [description, setDescription] = useState(post.description);
+	const [alias, setAlias] = useState(post.alias);
+	const [photo, setPhoto] = useState(post.photo);
 
-	useState<Date | null>(post.publishedAt)
 
-	function handleSubmit(event: any) {
+	async function handleSubmit(event: any) {
 		event.preventDefault();
 
-		event.preventDefault();
-		db.collection('posts').add({
+		const newPost = {
 			title,
 			alias,
-			author,
 			photo,
-			selectedDate,
-			text: convertToRaw(text.getCurrentContent())
+			date,
+			description,
+			content: draftToHtml(convertToRaw(content.getCurrentContent())),
+			user: db.collection('users').doc(user?.id)
+		};
 
-		})
+		if (post.isNew()) {
+			await db.collection('posts').add(newPost);
+		} else {
+			await db.collection('posts').doc(post.id).set(newPost);
+		}
+
+		await navigate('/management');
 	}
-
 
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className={classes.root}>
-
 				<div>
 					<TextField
-						value={post.title}
+						value={title}
 						onChange={(event) => setTitle(event.target.value)}
 						label="Title"
 						style={{ margin: 8 }}
@@ -86,22 +103,22 @@ const PostEditor = ({post}: Props) => {
 						variant="filled"
 					/>
 					<TextField
-						value={post.url}
+						value={photo}
 						onChange={(event) => setPhoto(event.target.value)}
 						label="Picture"
-						defaultValue="Default Value"
 						className={classes.textField}
 						margin="dense"
 						variant="filled"
 					/>
-					<TextField
-						value={post.author}
-						onChange={(event) => setAuthor(event.target.value)}
-						label="Author"
-						defaultValue="Default Value"
-						className={classes.textField}
-						margin="normal"
-						variant="filled"
+					<TextField variant="outlined"
+					           className={classes.textField}
+					           fullWidth
+					           rows={4}
+					           multiline
+					           aria-label="My comment"
+					           value={description}
+					           placeholder="Maximum 4 rows"
+					           onChange={(event) => setDescription(event.target.value)}
 					/>
 
 				</div>
@@ -114,8 +131,8 @@ const PostEditor = ({post}: Props) => {
 							margin="normal"
 							id="date-picker-inline"
 							label="Publish date"
-							value={post.publishedAt}
-							onChange={setSelectedDate}
+							value={date}
+							onChange={setDate}
 							KeyboardButtonProps={{
 								'aria-label': 'change date',
 							}}
@@ -127,16 +144,17 @@ const PostEditor = ({post}: Props) => {
 			</div>
 
 			<Editor
-				editorState={text}
+				editorState={content}
 				toolbarClassName="toolbarClassName"
 				wrapperClassName="wrapperClassName"
 				editorClassName="editorClassName"
-				onEditorStateChange={setText}
+				onEditorStateChange={setContent}
 			/>
 			<Button type="submit">Save</Button>
 		</form>
 	);
 };
 
-export default PostEditor;
-
+export default connect(
+	({user}: BlogReducers) => ({user})
+)(PostEditor);

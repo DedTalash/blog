@@ -1,30 +1,21 @@
 export interface PostInterface {
-    source: Source;
-    author: string;
     title: string;
     description: string;
-    url: string;
-    urlToImage: string;
+    alias: string;
+    photo: string;
     content: string;
-    publishedAt: string;
-}
-
-interface Source {
-    id: string;
-    name: string;
+    date: {toDate(): Date};
 }
 
 export default class Post
 {
     constructor (
-        public author: string,
         public content: string,
         public description: string,
-        public publishedAt: Date,
-        public source: Source,
+        public date: Date,
         public title: string,
-        public url: string,
-        public urlToImage: string,
+        public alias: string,
+        public photo: string,
         public id: string
     ) {}
 
@@ -33,26 +24,27 @@ export default class Post
         return new Post(
             '',
             '',
+            new Date(),
             '',
-            new Date('10/14/2025'),
-            {id: '', name: ''},
-            'swubwelghboghbekgu',
             '',
             '',
             ''
         );
     }
 
+    public isNew(): boolean
+    {
+        return !this.id;
+    }
+
     public static createFromData(data: PostInterface, id: string): Post {
         return new Post(
-            data.author,
             data.content,
             data.description,
-            new Date(data.publishedAt),
-            data.source,
+            data.date.toDate(),
             data.title,
-            data.url,
-            data.urlToImage,
+            data.alias,
+            data.photo,
             id
         );
     }

@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface Comment {
 	id: string,
 	comment: string,
-	date: { seconds: number, toDate(): Date },
+	date: { toDate(): Date },
 	user: any
 }
 

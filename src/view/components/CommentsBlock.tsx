@@ -93,7 +93,8 @@ const CommentBlock = (props: Props) => {
                                rows={4}
                                multiline
                                aria-label="My comment"
-                               value={comment} placeholder="Maximum 4 rows"
+                               value={comment}
+                               placeholder="Maximum 4 rows"
                                onChange={handleChange}/>
                     <div className={classes.buttonContainer}>
                         <Button

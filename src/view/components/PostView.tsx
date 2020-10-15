@@ -9,9 +9,8 @@ interface Props {
 	post: Post,
 }
 
-const useStyles = makeStyles((theme) => {
-
-	return ({
+const useStyles = makeStyles((theme) =>
+	({
 			root: {
 				display: 'flex',
 				flexWrap: 'wrap',
@@ -46,8 +45,7 @@ const useStyles = makeStyles((theme) => {
 				fontSize: '18px'
 			},
 		}
-	);
-});
+	));
 
 export const PostView = (props: Props) => {
 	const classes = useStyles();
@@ -58,17 +56,17 @@ export const PostView = (props: Props) => {
 			<Card className={classes.blogPost}  >
 			<CardMedia
 				className={classes.cover}
-				image={post.urlToImage}
+				image={post.photo}
 			/>
 			<CardContent>
 				<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
-					<Link to={`/blog/${post.id}`}>{post.title}</Link>
+					<Link to={`/blog/${post.alias}`}>{post.title}</Link>
 				</Typography>
 				<Typography className={classes.bodyPost} variant="body1" color="textSecondary" gutterBottom={true}>
 					{post.description}
 				</Typography>
 				<Typography variant={"body2"} color="textSecondary" align={"right"}>
-					{Formatter.toDate(post.publishedAt)}
+					{Formatter.toDate(post.date)}
 				</Typography>
 			</CardContent>
 			</Card>
