@@ -5,10 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import {createStyles, Theme} from "@material-ui/core";
 import {db} from "../../config/firebase";
-import {ThumbDown, ThumbUp} from "@material-ui/icons";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
 import {User} from "../../redux/userReducer";
+import Likes from "./Likes";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,16 +67,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			paddingBottom: 30,
 			borderBottom: '1px solid #f1f1f1'
 		},
-		likes: {
-			maxHeight: 200,
-			width: '100%',
-			display: 'block',
-			textAlign: 'right'
-		},
-		buttonContainer: {
-			marginBottom: theme.spacing(2),
-			marginRight: theme.spacing(2)
-		},
 	}),
 );
 export interface Comment {
@@ -112,37 +102,7 @@ function useDoc(path: string) {
 const PostComment = (props: Props) => {
 	const classes = useStyles();
 	const author = useDoc(props.comment.user.path);
-	const [likesValue, setLikesValue] = useState<number>(0)
-	const [canLike, setCanLike] = useState<boolean>(false)
 
-	const handleLike = (type: boolean) => {
-		db.collection(`posts/${props.postId}/comments/${props.comment.id}/likes`).add({
-			type,
-			date: new Date().toString(),
-			uid: props.user?.id
-		});
-	}
-	useEffect(() => {
-		return db.collection(`posts/${props.postId}/comments/${props.comment.id}/likes`).onSnapshot(snapshot => {
-				let canLike = true;
-				let value = 0;
-				snapshot.forEach((like) => {
-					const userLike = like.data() as Like;
-
-					if (userLike.type) {
-						value++;
-					} else {
-						value--;
-					}
-
-					if (userLike.uid === props.user?.id) {
-						canLike = false;
-					}
-				})
-				setLikesValue(value);
-				setCanLike(canLike);
-			});
-	}, [props.comment.id, props.user?.id]);
 	return (
 		<div className={classes.commentArea}>
 			<ListItemAvatar className={classes.avatar}>
@@ -160,13 +120,9 @@ const PostComment = (props: Props) => {
 				<Typography className={classes.commentText}>
 					{props.comment.comment}
 				</Typography>
-				<div className={classes.likes}>
-					{likesValue}
-					{props.comment.user && canLike && <>
-						<ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
-						<ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
-					</> }
-				</div>
+				<Likes path={`posts/${props.postId}/comments/${props.comment.id}/likes`}
+					   depends={props.comment.id}
+					   user={props.user}/>
 			</div>
 		</div>
 	);

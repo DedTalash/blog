@@ -13,9 +13,10 @@ export interface Comment {
 }
 
 interface Props {
-    postId?: string,
+    depends?: string,
     user: User
-    comment?: Comment
+    comment?: Comment,
+    path: string
 }
 
 interface Like {
@@ -44,13 +45,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }),);
 
     const Likes = (props:Props) => {
-        const {postId} = props;
         const [likesValue, setLikesValue] = useState<number>(0)
         const [canLike, setCanLike] = useState<boolean>(false)
         const classes = useStyles();
 
         const handleLike = (type: boolean) => {
-            db.collection(`posts/${postId}/likes`).add({
+            db.collection(props.path).add({
                 type,
                 date: new Date().toString(),
                 uid: props.user?.id
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
         }
 
         useEffect(() => {
-            return db.collection(`posts/${postId}/likes`).onSnapshot(snapshot => {
+            return db.collection(props.path).onSnapshot(snapshot => {
                 let canLike = true;
                 let value = 0;
                 snapshot.forEach((like) => {
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 setLikesValue(value);
                 setCanLike(canLike);
             });
-        }, [postId, props.user?.id]);
+        }, [props.depends, props.user?.id]);
     return (
         <div>
             <div className={classes.likes}>

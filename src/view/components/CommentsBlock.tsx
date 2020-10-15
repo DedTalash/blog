@@ -13,7 +13,8 @@ import PostComment, {Comment} from "./PostComment";
 
 interface Props {
     postId: string,
-    user: User
+    user?: User
+
 }
 
 const useStyles = makeStyles((theme: Theme) =>

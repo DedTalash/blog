@@ -49,7 +49,7 @@ const Post = (props: Props & RouteComponentProps) => {
             <CardMedia image={post.urlToImage}/>
             <h1>{post.title}</h1>
             <p>{post.content}</p>
-             <Likes user={props.user} postId={postId}/>
+             <Likes user={props.user} depends={postId} path={`posts/${postId}/likes`}/>
         </Container>
         <Container>
             <CommentBlock postId={post.id}/>
