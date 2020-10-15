@@ -11,6 +11,7 @@ import config from "./config/config";
 import Management from "./view/pages/Management";
 import CreatePost from "./view/pages/CreatePost";
 import EditPost from "./view/pages/EditPost";
+import Users from "./view/pages/Users";
 
 export default function App()
 {
@@ -26,6 +27,7 @@ export default function App()
 					<CreatePost path="/management/create" />
 					<EditPost path="/management/edit/:postId" />
 					<Management path="/management"/>
+					<Users path="/users"/>
 				</Router>
 			</Container>
 		</Container>

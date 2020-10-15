@@ -15,6 +15,7 @@ import {User} from "../redux/userReducer";
 import DropDown from "./components/DropDown";
 import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
 import MenuIcon from "@material-ui/icons/Menu";
+import {UserRole} from "./pages/Users";
 
 const useStyles = makeStyles(() => ({
     title: {
@@ -38,7 +39,8 @@ const TopBar = (props: Props) => {
                     name: user.displayName,
                     photo: user.photoURL,
                     id: user.uid,
-                    email: user.email
+                    email: user.email,
+                    role: UserRole.USER
                 };
                 db.collection('users').doc(user.id).set(user, {merge: true})
             }
@@ -66,8 +68,7 @@ const TopBar = (props: Props) => {
                         </Typography>
                         {props.user ?
                             <DropDown items={[
-                                ['Blog', () => navigate('/')],
-                                ['Personal Jesus', () => navigate('/')],
+                                ['Users', () => navigate('/users')],
                                 ['Management', () => navigate('/management')],
                                 ['Logout', () => firebase.auth().signOut()],
                             ]}>
