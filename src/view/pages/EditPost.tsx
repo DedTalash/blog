@@ -8,7 +8,6 @@ import {LinearProgress} from "@material-ui/core";
 interface Props {
 	postId?: string
 }
-
 const EditPost = ({postId}: Props & RouteComponentProps) => {
 
 	const [processing, setProcessing] = useState<boolean>(false);
@@ -22,7 +21,8 @@ const EditPost = ({postId}: Props & RouteComponentProps) => {
 				 const postEdit = (Post.createFromData(singlePost.data() as PostInterface, singlePost.id));
 			setPost(postEdit);
 		});
-	}, []);
+	}, [postId]);
+	console.log(post)
 
 	return (
 

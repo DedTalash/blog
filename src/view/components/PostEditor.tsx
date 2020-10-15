@@ -13,6 +13,7 @@ import {
 } from '@material-ui/pickers';
 import {Button} from "@material-ui/core";
 import Post from "../../model/Post";
+import {db} from "../../config/firebase";
 
 interface Props {
 	post: Post
@@ -34,26 +35,33 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const PostEditor = ({post}: Props) => {
 	const classes = useStyles();
-
+	console.log("e", post)
 	const [selectedDate, setSelectedDate] = useState<Date | null>(post.publishedAt);
 	const [text, setText] = useState(() => EditorState.createWithContent(
 		ContentState.createFromText(''))
 	);
 	const [title, setTitle] = useState(post.title);
 	const [alias, setAlias] = useState(post.url);
+	const [author, setAuthor] = useState(post.author);
 	const [photo, setPhoto] = useState(post.urlToImage);
+
+	useState<Date | null>(post.publishedAt)
 
 	function handleSubmit(event: any) {
 		event.preventDefault();
-		console.log({
+
+		event.preventDefault();
+		db.collection('posts').add({
 			title,
 			alias,
+			author,
 			photo,
 			selectedDate,
 			text: convertToRaw(text.getCurrentContent())
-			}
-		)
+
+		})
 	}
+
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -61,7 +69,7 @@ const PostEditor = ({post}: Props) => {
 
 				<div>
 					<TextField
-						value={title}
+						value={post.title}
 						onChange={(event) => setTitle(event.target.value)}
 						label="Title"
 						style={{ margin: 8 }}
@@ -78,12 +86,21 @@ const PostEditor = ({post}: Props) => {
 						variant="filled"
 					/>
 					<TextField
-						value={photo}
+						value={post.url}
 						onChange={(event) => setPhoto(event.target.value)}
 						label="Picture"
 						defaultValue="Default Value"
 						className={classes.textField}
 						margin="dense"
+						variant="filled"
+					/>
+					<TextField
+						value={post.author}
+						onChange={(event) => setAuthor(event.target.value)}
+						label="Author"
+						defaultValue="Default Value"
+						className={classes.textField}
+						margin="normal"
 						variant="filled"
 					/>
 
@@ -97,7 +114,7 @@ const PostEditor = ({post}: Props) => {
 							margin="normal"
 							id="date-picker-inline"
 							label="Publish date"
-							value={selectedDate}
+							value={post.publishedAt}
 							onChange={setSelectedDate}
 							KeyboardButtonProps={{
 								'aria-label': 'change date',
