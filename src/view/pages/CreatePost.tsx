@@ -1,6 +1,6 @@
 import React from 'react';
 import {RouteComponentProps} from "@reach/router";
-import Post from "../../model/Post";
+import Post from "../../models/Post";
 import PostEditor from "../components/PostEditor";
 
 const CreatePost = (props: RouteComponentProps) => {

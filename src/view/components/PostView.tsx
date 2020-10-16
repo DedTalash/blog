@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "../../model/Post";
+import Post from "../../models/Post";
 import {Formatter} from "../../components/Formatter";
 import {Card, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";

@@ -3,7 +3,7 @@ import {ThumbDown, ThumbUp} from "@material-ui/icons";
 import {db} from "../../config/firebase";
 import {makeStyles} from "@material-ui/core/styles";
 import {createStyles, Theme} from "@material-ui/core";
-import {User} from "../../redux/userReducer";
+import User from "../../models/User";
 
 export interface Comment {
     id: string,

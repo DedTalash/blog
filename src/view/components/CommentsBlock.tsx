@@ -8,14 +8,13 @@ import TextField from "@material-ui/core/TextField";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
 import Divider from "@material-ui/core/Divider";
-import {User} from "../../redux/userReducer";
 import PostComment, {Comment} from "./PostComment";
 import AppLoader from "./AppLoader";
+import User from "../../models/User";
 
 interface Props {
     postId: string,
     user?: User
-
 }
 
 const useStyles = makeStyles((theme: Theme) =>

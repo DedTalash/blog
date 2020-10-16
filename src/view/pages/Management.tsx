@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, RouteComponentProps} from "@reach/router";
 import {useTitle} from "../../utils/useTitle";
-import Post, {PostInterface} from "../../model/Post";
+import Post, {PostInterface} from "../../models/Post";
 import {db} from "../../config/firebase";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

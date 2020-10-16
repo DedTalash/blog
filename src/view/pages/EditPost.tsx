@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {RouteComponentProps} from "@reach/router";
 import PostEditor from "../components/PostEditor";
 import {db} from "../../config/firebase";
-import Post, {PostInterface} from "../../model/Post";
+import Post, {PostInterface} from "../../models/Post";
 import AppLoader from "../components/AppLoader";
 
 interface Props {

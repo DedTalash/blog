@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	items: [string, () => void][],
+	items: [string, () => void, boolean?][],
 	children: React.ReactNode
 }
 
@@ -88,19 +88,25 @@ const DropDown = ({children, items}: Props) => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				{items.map(([label, action], index) =>
-					<StyledMenuItem key={index}>
-						<Button
-							className={classes.padding}
-							onClick={() => {
-								handleClose();
-								action();
-							}}
-							color="inherit"
-						>
-							{label}
-						</Button>
-					</StyledMenuItem>
+				{items.map(([label, action, show], index) => {
+
+					if (show !== undefined && !show) {
+						return null;
+					}
+
+					return <StyledMenuItem key={index}>
+							<Button
+								className={classes.padding}
+								onClick={() => {
+									handleClose();
+									action();
+								}}
+								color="inherit"
+							>
+								{label}
+							</Button>
+						</StyledMenuItem>;
+					}
 				)}
 			</StyledMenu>
 		</>

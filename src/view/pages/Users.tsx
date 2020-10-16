@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {navigate, RouteComponentProps} from "@reach/router";
+import {RouteComponentProps} from "@reach/router";
 import {useTitle} from "../../utils/useTitle";
-import {db, firebase} from "../../config/firebase";
+import {db} from "../../config/firebase";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -13,10 +13,7 @@ import AppLoader from "../components/AppLoader";
 import DropDown from "../components/DropDown";
 import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
 import {makeStyles} from "@material-ui/core/styles";
-
-export enum UserRole {
-    ADMIN, USER, MANAGER, GUEST
-}
+import User, {UserInterface, UserRole} from "../../models/User";
 
 const useStyles = makeStyles(() => ({
 	menu: {
@@ -26,14 +23,6 @@ const useStyles = makeStyles(() => ({
 		fontSize: 15
 	}
 }));
-
-interface User {
-    name: string,
-    photo: string,
-    id: string,
-    email: string,
-    role: UserRole
-}
 
 const Users = (props: RouteComponentProps) => {
     useTitle('Users');
@@ -47,27 +36,16 @@ const Users = (props: RouteComponentProps) => {
             const users: User[] = [];
             setProcessing(false);
             snapshot.forEach((user) => {
-                users.push(user.data() as User);
+                users.push(User.createFromData(user.data() as UserInterface, user.id));
             })
             setUsers(users);
         });
     }, []);
 
-    const getRoleLabel = (role: UserRole): string => {
-        switch (role) {
-            case UserRole.ADMIN:
-                return 'Administrator'
-            case UserRole.USER:
-                return 'User'
-            case UserRole.MANAGER:
-                return 'Manager'
-            case UserRole.GUEST:
-                return 'Guest'
-        }
-    }
-const setRoleUser = (id:string, role: UserRole ): void =>{
-	db.collection('users').doc(id).update({role: role})
-}
+	const setRoleUser = (id:string, role: UserRole ): void =>{
+		db.collection('users').doc(id).update({role: role})
+	}
+
     return <AppLoader loading={processing}>
         <TableContainer component={Paper}>
             <Table aria-label="simple table">
@@ -89,12 +67,12 @@ const setRoleUser = (id:string, role: UserRole ): void =>{
                             </TableCell>
                             <TableCell>
                                 <DropDown items={[
-                                    ['Users', () => {setRoleUser(user.id,UserRole.USER)}],
-                                    ['Management', () => {setRoleUser(user.id,UserRole.MANAGER)}],
-                                    ['Admin', () => {setRoleUser(user.id,UserRole.ADMIN)}],
+                                    ['Users', () => setRoleUser(user.id,UserRole.USER)],
+                                    ['Management', () => setRoleUser(user.id,UserRole.MANAGER)],
+                                    ['Admin', () => setRoleUser(user.id,UserRole.ADMIN)],
                                 ]}>
 									<div className={classes.menu}>
-										{getRoleLabel(user.role)}
+										{user.getRoleLabel()}
 									</div>
 									<ArrowDropDownSharpIcon className={classes.arrow} />
                                 </DropDown>

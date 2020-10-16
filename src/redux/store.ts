@@ -1,5 +1,6 @@
 import {combineReducers, createStore} from "redux";
-import userReducer, {User} from "./userReducer";
+import userReducer from "./userReducer";
+import User from "../models/User";
 
 export type BlogReducers = {
     user: User

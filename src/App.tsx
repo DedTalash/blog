@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Main from "./view/pages/Main";
 import TopBar from "./view/TopBar";
 import {Router} from "@reach/router";
@@ -11,12 +11,22 @@ import config from "./config/config";
 import Management from "./view/pages/Management";
 import CreatePost from "./view/pages/CreatePost";
 import EditPost from "./view/pages/EditPost";
-import Users, {UserRole} from "./view/pages/Users";
+import Users from "./view/pages/Users";
+import authService from "./services/AuthService";
 import {connect} from "react-redux";
+import {BlogReducers} from "./redux/store";
+import User from "./models/User";
 
- function App({userRole}: UserRole)
+interface Props {
+	user: User
+}
+
+function App({user}: Props)
 {
 	useTitle(config.companyName);
+	useEffect(authService.subscribe, [])
+
+	console.log('DATA DISPATCH', user.data());
 
 	return <>
 		<TopBar />
@@ -26,10 +36,12 @@ import {connect} from "react-redux";
 					<Main path="/" />
 					<About path="/about" />
 					<Post path="/blog/:postAlias" />
-					<CreatePost path="/management/create" />
-					<EditPost path="/management/edit/:postId" />
-					{userRole === UserRole.ADMIN && <Management path="/management"/>}
-					<Users path="/users"/>
+					{user.can('management') && <>
+						<CreatePost path="/management/create" />
+						<EditPost path="/management/edit/:postId" />
+						<Management path="/management"/>
+					</>}
+					{user.can('users') && <Users path="/users"/>}
 				</Router>
 			</Container>
 		</Container>
@@ -37,6 +49,5 @@ import {connect} from "react-redux";
 }
 
 export default connect(
-	(({userRole}: UserRole) => (userRole)),
-	null
+	({user}: BlogReducers) => ({user})
 )(App);

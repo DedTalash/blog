@@ -7,8 +7,8 @@ import {createStyles, Theme} from "@material-ui/core";
 import {db} from "../../config/firebase";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import {User} from "../../redux/userReducer";
 import Likes from "./Likes";
+import User from "../../models/User";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -124,5 +124,5 @@ const PostComment = (props: Props) => {
 };
 
 export default connect(
-	({user}: BlogReducers) => ({ user })
+	({user}: BlogReducers) => ({user})
 )(PostComment);

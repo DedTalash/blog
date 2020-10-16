@@ -1,4 +1,4 @@
-import {User} from "./userReducer";
+import User from "../models/User";
 
 export const SET_USER = 'SET_USER';
 

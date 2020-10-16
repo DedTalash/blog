@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Grid} from "@material-ui/core";
 import {PostView} from "../components/PostView";
-import Post, {PostInterface} from "../../model/Post";
+import Post, {PostInterface} from "../../models/Post";
 import {db} from "../../config/firebase";
 import {RouteComponentProps} from "@reach/router";
 import {connect} from "react-redux";

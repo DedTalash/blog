@@ -12,15 +12,15 @@ import {
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
 import {Button} from "@material-ui/core";
-import Post from "../../model/Post";
+import Post from "../../models/Post";
 import {connect} from "react-redux";
 import {BlogReducers} from "../../redux/store";
-import {User} from "../../redux/userReducer";
 
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import {db} from "../../config/firebase";
 import {navigate} from "@reach/router";
+import User from "../../models/User";
 
 interface Props {
 	post: Post,
