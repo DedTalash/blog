@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import {Create, Delete} from "@material-ui/icons";
-import {LinearProgress} from "@material-ui/core";
+import AppLoader from "../components/AppLoader";
 
 const useStyles = makeStyles({
 	table: {
@@ -48,50 +48,45 @@ const Management = (props:  RouteComponentProps) => {
 		db.doc(`posts/${postId}`).delete();
 	}
 
-	return (
-		<>
-			<Link to="/management/create"  role="button" >
-				<button type="button">
-					Add new post
-				</button>
-			</Link>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<TableContainer component={Paper}>
-				<Table className={classes.table} aria-label="simple table">
-					<TableHead>
-						<TableRow>
-							<TableCell>Title</TableCell>
-							<TableCell>Author</TableCell>
-							<TableCell/>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{posts.map(post => (
-							<TableRow key={post.id}>
-								<TableCell component="th" scope="row">
-									{post.title}
-								</TableCell>
-
-								<TableCell>
-									<ButtonGroup variant="contained" color="primary">
-										<Link to={`/management/edit/${post.id}`}><Create/></Link>
-										<Button onClick={handleDelete.bind(null, post.id)}><Delete/></Button>
-									</ButtonGroup>
-								</TableCell>
-								{/*<TableCell>{post.publishedAt}</TableCell>*/}
+	return <AppLoader loading={processing}>
+				<Link to="/management/create"  role="button" >
+					<button type="button">
+						Add new post
+					</button>
+				</Link>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<TableContainer component={Paper}>
+					<Table className={classes.table} aria-label="simple table">
+						<TableHead>
+							<TableRow>
+								<TableCell>Title</TableCell>
+								<TableCell>Author</TableCell>
+								<TableCell/>
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-				{processing && <div className="line">
-					<LinearProgress color="secondary"/>
-				</div>}
-			</TableContainer>
-		</>
-	);
+						</TableHead>
+						<TableBody>
+							{posts.map(post => (
+								<TableRow key={post.id}>
+									<TableCell component="th" scope="row">
+										{post.title}
+									</TableCell>
+
+									<TableCell>
+										<ButtonGroup variant="contained" color="primary">
+											<Link to={`/management/edit/${post.id}`}><Create/></Link>
+											<Button onClick={handleDelete.bind(null, post.id)}><Delete/></Button>
+										</ButtonGroup>
+									</TableCell>
+									{/*<TableCell>{post.publishedAt}</TableCell>*/}
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</AppLoader>
 };
 
 export default Management;

@@ -1,7 +1,7 @@
 import {AppBar, Button, Fab, Typography} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import {connect} from "react-redux";
@@ -21,6 +21,9 @@ const useStyles = makeStyles(() => ({
     title: {
         flexGrow: 1,
     },
+    name: {
+        fontSize: 15
+    }
 }));
 
 type Props = {
@@ -29,7 +32,7 @@ type Props = {
 }
 
 const TopBar = (props: Props) => {
-
+        const [userRole, setUserRole] = useState<UserRole>(UserRole.GUEST)
     const classes = useStyles();
 
     useEffect(() => {
@@ -45,6 +48,7 @@ const TopBar = (props: Props) => {
                 db.collection('users').doc(user.id).set(user, {merge: true})
             }
             props.setUser(user);
+            setUserRole(user.role)
         });
     }, []);
 
@@ -72,7 +76,9 @@ const TopBar = (props: Props) => {
                                 ['Management', () => navigate('/management')],
                                 ['Logout', () => firebase.auth().signOut()],
                             ]}>
-                                {props.user?.name}
+                                <div className={classes.name}>
+                                    {props.user?.name}
+                                </div>
                                 <ArrowDropDownSharpIcon />
                             </DropDown>
                                 :
@@ -92,11 +98,11 @@ const TopBar = (props: Props) => {
     );
 }
 
-export default connect(
-    ({user}: BlogReducers) => ({user}),
-    {setUser}
-)(TopBar);
-
+// export default connect(
+//     ({user}: BlogReducers) => ({user});
+//     ({userRole}: UserRole) => ({userRole}),
+//     {setUser}
+// )(TopBar);
 
 
 

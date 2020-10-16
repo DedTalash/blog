@@ -4,7 +4,7 @@ export type User = {
     name?: string,
     photo?: string,
     id?: string,
-    email?: string
+    email?: string,
 } | null;
 
 export default function userReducer(state: User = null, { type, user }: UserAction): User

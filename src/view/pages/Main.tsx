@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Grid, LinearProgress} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {PostView} from "../components/PostView";
 import Post, {PostInterface} from "../../model/Post";
 import {db} from "../../config/firebase";
@@ -7,6 +7,7 @@ import {RouteComponentProps} from "@reach/router";
 import {connect} from "react-redux";
 import {useTitle} from "../../utils/useTitle";
 import config from "../../config/config";
+import AppLoader from "../components/AppLoader";
 
 interface Props {
 
@@ -31,14 +32,11 @@ const Main = (props: Props & RouteComponentProps) =>
         });
     }, []);
 
-    return <>
+    return  <AppLoader loading={processing}>
         <Grid container>
             {posts.map(post => <PostView post={post} key={post.alias}/>)}
         </Grid>
-        {processing && <div className="line">
-            <LinearProgress color="secondary"/>
-        </div>}
-    </>;
+    </AppLoader>
 }
 
 export default connect(

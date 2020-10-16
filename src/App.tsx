@@ -11,11 +11,13 @@ import config from "./config/config";
 import Management from "./view/pages/Management";
 import CreatePost from "./view/pages/CreatePost";
 import EditPost from "./view/pages/EditPost";
-import Users from "./view/pages/Users";
+import Users, {UserRole} from "./view/pages/Users";
+import {connect} from "react-redux";
 
-export default function App()
+ function App({userRole}: UserRole)
 {
 	useTitle(config.companyName);
+
 	return <>
 		<TopBar />
 		<Container className="main-container">
@@ -26,10 +28,15 @@ export default function App()
 					<Post path="/blog/:postAlias" />
 					<CreatePost path="/management/create" />
 					<EditPost path="/management/edit/:postId" />
-					<Management path="/management"/>
+					{userRole === UserRole.ADMIN && <Management path="/management"/>}
 					<Users path="/users"/>
 				</Router>
 			</Container>
 		</Container>
 	</>;
 }
+
+export default connect(
+	(({userRole}: UserRole) => (userRole)),
+	null
+)(App);

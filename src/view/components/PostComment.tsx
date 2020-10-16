@@ -117,7 +117,6 @@ const PostComment = (props: Props) => {
 					{props.comment.comment}
 				</Typography>
 				<Likes path={`posts/${props.postId}/comments/${props.comment.id}/likes`}
-					   depends={props.comment.id}
 					   user={props.user}/>
 			</div>
 		</div>

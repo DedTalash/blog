@@ -13,7 +13,6 @@ export interface Comment {
 }
 
 interface Props {
-    depends?: string,
     user: User
     comment?: Comment,
     path: string

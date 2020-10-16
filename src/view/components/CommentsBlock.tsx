@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {db} from "../../config/firebase";
-import {createStyles, LinearProgress, Theme} from "@material-ui/core";
+import {createStyles, Theme} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -10,6 +10,7 @@ import {BlogReducers} from "../../redux/store";
 import Divider from "@material-ui/core/Divider";
 import {User} from "../../redux/userReducer";
 import PostComment, {Comment} from "./PostComment";
+import AppLoader from "./AppLoader";
 
 interface Props {
     postId: string,
@@ -55,18 +56,18 @@ const CommentBlock = (props: Props) => {
         setProcessing(true);
         return db.collection(`posts/${postId}/comments`)
             .orderBy('date').onSnapshot(snapshot => {
-            const comments: Comment[] = [];
-            const size = snapshot.size;
-            setProcessing(false);
-            snapshot.forEach((comment) => {
-                comments.push({
-                    ...comment.data(),
-                    id: comment.id,
-                } as Comment);
-            })
-            setComments(comments);
-            setSize(size)
-        });
+                const comments: Comment[] = [];
+                const size = snapshot.size;
+                setProcessing(false);
+                snapshot.forEach((comment) => {
+                    comments.push({
+                        ...comment.data(),
+                        id: comment.id,
+                    } as Comment);
+                })
+                setComments(comments);
+                setSize(size)
+            });
     }, [postId]);
 
 
@@ -74,44 +75,41 @@ const CommentBlock = (props: Props) => {
         setComment(event.target.value);
     };
 
-
     return (
         <>
-            <Container className={classes.root}>
-                <h3>Comments {size} </h3>
-                {comments.map((comment, index) =>
-                    <PostComment key={index} postId={postId} comment={comment}/>
-                )}
+            <AppLoader loading={processing}>
+                <Container className={classes.root}>
+                    <h3>Comments {size} </h3>
+                    {comments.map((comment, index) =>
+                        <PostComment key={index} postId={postId} comment={comment}/>
+                    )}
 
-                <Divider variant="inset"/>
+                    <Divider variant="inset"/>
 
-                <form autoComplete="off" onSubmit={handleSubmit}>
-                    <TextField label="Enter your comment"
-                               variant="outlined"
-                               className={classes.spacedBlock}
-                               fullWidth
-                               rows={4}
-                               multiline
-                               aria-label="My comment"
-                               value={comment}
-                               placeholder="Maximum 4 rows"
-                               onChange={handleChange}/>
-                    <div className={classes.buttonContainer}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            size="large"
-                        >
-                            Post
-                        </Button>
-                    </div>
-                </form>
-
-                {processing && <div className="line">
-                    <LinearProgress color="secondary"/>
-                </div>}
-            </Container>
+                    <form autoComplete="off" onSubmit={handleSubmit}>
+                        <TextField label="Enter your comment"
+                                   variant="outlined"
+                                   className={classes.spacedBlock}
+                                   fullWidth
+                                   rows={4}
+                                   multiline
+                                   aria-label="My comment"
+                                   value={comment}
+                                   placeholder="Maximum 4 rows"
+                                   onChange={handleChange}/>
+                        <div className={classes.buttonContainer}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                size="large"
+                            >
+                                Post
+                            </Button>
+                        </div>
+                    </form>
+                </Container>
+            </AppLoader>
         </>
     )
 }
