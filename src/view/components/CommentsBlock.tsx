@@ -5,16 +5,13 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import {connect} from "react-redux";
-import {BlogReducers} from "../../redux/store";
 import Divider from "@material-ui/core/Divider";
 import PostComment, {Comment} from "./PostComment";
 import AppLoader from "./AppLoader";
-import User from "../../models/User";
+import useUser from "../../utils/useUser";
 
 interface Props {
-    postId: string,
-    user?: User
+    postId: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,10 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-const CommentBlock = (props: Props) => {
+
+export default function CommentBlock(props: Props)
+{
     const classes = useStyles();
     const postId = props.postId;
-    const user = props.user;
+
+    const user = useUser();
 
     const [comment, setComment] = useState('');
     const [size, setSize] = useState(0);
@@ -112,6 +112,3 @@ const CommentBlock = (props: Props) => {
         </>
     )
 }
-export default connect(
-    ({user}: BlogReducers) => ({user})
-)(CommentBlock);

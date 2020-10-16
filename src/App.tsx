@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Main from "./view/pages/Main";
-import TopBar from "./view/TopBar";
+import {TopBar} from "./view/TopBar";
 import {Router} from "@reach/router";
 import About from "./view/pages/About";
 import {Container} from "@material-ui/core";
@@ -13,20 +13,14 @@ import CreatePost from "./view/pages/CreatePost";
 import EditPost from "./view/pages/EditPost";
 import Users from "./view/pages/Users";
 import authService from "./services/AuthService";
-import {connect} from "react-redux";
-import {BlogReducers} from "./redux/store";
-import User from "./models/User";
+import useUser from "./utils/useUser";
 
-interface Props {
-	user: User
-}
-
-function App({user}: Props)
+export default function App()
 {
 	useTitle(config.companyName);
 	useEffect(authService.subscribe, [])
 
-	console.log('DATA DISPATCH', user.data());
+	const user = useUser();
 
 	return <>
 		<TopBar />
@@ -47,7 +41,3 @@ function App({user}: Props)
 		</Container>
 	</>;
 }
-
-export default connect(
-	({user}: BlogReducers) => ({user})
-)(App);

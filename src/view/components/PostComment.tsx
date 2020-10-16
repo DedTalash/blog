@@ -5,11 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import {createStyles, Theme} from "@material-ui/core";
 import {db} from "../../config/firebase";
-import {connect} from "react-redux";
-import {BlogReducers} from "../../redux/store";
 import Likes from "./Likes";
-import User from "../../models/User";
-
+import useUser from "../../utils/useUser";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -78,7 +75,6 @@ export interface Comment {
 
 interface Props {
 	comment: Comment,
-	user: User,
 	postId: string
 }
 
@@ -95,7 +91,9 @@ function useDoc(path: string) {
 	return doc;
 }
 
-const PostComment = (props: Props) => {
+export default function PostComment(props: Props)
+{
+	const user = useUser();
 	const classes = useStyles();
 	const author = useDoc(props.comment.user.path);
 
@@ -117,12 +115,8 @@ const PostComment = (props: Props) => {
 					{props.comment.comment}
 				</Typography>
 				<Likes path={`posts/${props.postId}/comments/${props.comment.id}/likes`}
-					   user={props.user}/>
+					   user={user}/>
 			</div>
 		</div>
 	);
-};
-
-export default connect(
-	({user}: BlogReducers) => ({user})
-)(PostComment);
+}

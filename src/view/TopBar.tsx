@@ -4,8 +4,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import {connect} from "react-redux";
-import {BlogReducers} from "../redux/store";
 import {firebase} from "../config/firebase";
 import {ScrollTop} from "./components/ScrollTop";
 import {Link, navigate} from "@reach/router";
@@ -14,7 +12,7 @@ import DropDown from "./components/DropDown";
 import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
 import MenuIcon from "@material-ui/icons/Menu";
 import authService from "../services/AuthService";
-import User from "../models/User";
+import useUser from "../utils/useUser";
 
 const useStyles = makeStyles(() => ({
     title: {
@@ -25,11 +23,9 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-type Props = {
-    user: User
-}
+export const TopBar = () => {
 
-const TopBar = ({user}: Props) => {
+    const user = useUser();
     const classes = useStyles();
 
     const handleSignIn = async () => {
@@ -78,10 +74,5 @@ const TopBar = ({user}: Props) => {
         </>
     );
 }
-
-export default connect(
-    ({user}: BlogReducers) => ({user})
-)(TopBar);
-
 
 

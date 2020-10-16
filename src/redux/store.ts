@@ -1,13 +1,12 @@
 import {combineReducers, createStore} from "redux";
-import userReducer from "./userReducer";
-import User from "../models/User";
+import userReducer, {UserState} from "./userReducer";
 
 export type BlogReducers = {
-    user: User
+    userState: UserState
 }
 
 const reducers = combineReducers<BlogReducers>({
-    user: userReducer
+    userState: userReducer
 });
 
 export default createStore(reducers);

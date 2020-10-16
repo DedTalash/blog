@@ -13,18 +13,14 @@ import {
 } from '@material-ui/pickers';
 import {Button} from "@material-ui/core";
 import Post from "../../models/Post";
-import {connect} from "react-redux";
-import {BlogReducers} from "../../redux/store";
-
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import {db} from "../../config/firebase";
 import {navigate} from "@reach/router";
-import User from "../../models/User";
+import useUser from "../../utils/useUser";
 
 interface Props {
-	post: Post,
-	user: User
+	post: Post
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,7 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-const PostEditor = ({post, user}: Props) => {
+export default function PostEditor({post}: Props)
+{
+	const user = useUser();
 	const classes = useStyles();
 
 	// ###################
@@ -154,7 +152,3 @@ const PostEditor = ({post, user}: Props) => {
 		</form>
 	);
 };
-
-export default connect(
-	({user}: BlogReducers) => ({user})
-)(PostEditor);

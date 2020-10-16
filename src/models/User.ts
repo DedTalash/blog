@@ -1,5 +1,6 @@
 import {User as FirebaseUser} from "firebase";
 import authService from "../services/AuthService";
+import hash from 'object-hash';
 
 export enum UserRole {
 	ADMIN, USER, MANAGER, GUEST
@@ -96,8 +97,6 @@ export default class User
 		this.photo = data.photo;
 		this.email = data.email;
 		this.role = data.role;
-
-		console.log(this.data());
 	}
 
 	static createFromFirebaseUser(user: FirebaseUser|null)
@@ -135,6 +134,11 @@ export default class User
 			'',
 			UserRole.GUEST
 		)
+	}
+
+	get hash(): string
+	{
+		return hash(this.data());
 	}
 
 	data() {

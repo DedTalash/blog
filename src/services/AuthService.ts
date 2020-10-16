@@ -30,7 +30,7 @@ class AuthService
 	{
 		return db.collection('users').doc(id).onSnapshot(user => {
 			model.update(user.data() as UserInterface);
-			// store.dispatch(setUser(model));
+			store.dispatch(setUser(model));
 		});
 	}
 

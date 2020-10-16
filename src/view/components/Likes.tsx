@@ -39,9 +39,8 @@ const useStyles = makeStyles((theme: Theme) =>
         buttonContainer: {
             marginBottom: theme.spacing(2),
             marginRight: theme.spacing(2)
-        },
-
-    }),);
+        }
+    }));
 
     const Likes = (props:Props) => {
         const [likesValue, setLikesValue] = useState<number>(0)

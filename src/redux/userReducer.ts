@@ -1,14 +1,30 @@
 import {UserAction, SET_USER} from "./actions";
 import User from "../models/User";
 
+const initialUser = User.createEmpty();
+
+const initialState = {
+    user: initialUser,
+    hash: initialUser.hash
+};
+
+export interface UserState {
+    user: User,
+    hash: string
+}
+
 export default function userReducer(
-    state: User = User.createEmpty(), { type, user }: UserAction
-): User
+    state: UserState = initialState, { type, user }: UserAction
+): UserState
 {
     if (type === SET_USER) {
-        state.unSubscribe();
-        user.subscribe();
-        return user;
+        if (user !== state.user) {
+            state.user.unSubscribe();
+            user.subscribe();
+        }
+
+        return { user, hash: user.hash };
     }
+
     return state;
 }
