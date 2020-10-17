@@ -4,15 +4,16 @@ import Toolbar from "@material-ui/core/Toolbar";
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import {firebase} from "../config/firebase";
-import {ScrollTop} from "./components/ScrollTop";
+import {ScrollTop} from "./ScrollTop";
 import {Link, navigate} from "@reach/router";
-import config from "../config/config";
-import DropDown from "./components/DropDown";
+import config from "../../config/config";
+import DropDown from "./DropDown";
 import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
 import MenuIcon from "@material-ui/icons/Menu";
-import authService from "../services/AuthService";
-import useUser from "../utils/useUser";
+import authService from "../../services/AuthService";
+import useUser from "../../utils/useUser";
+import {ModalType, showModal} from "../../redux/actions";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles(() => ({
     title: {
@@ -23,15 +24,14 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export const TopBar = () => {
+interface Props {
+    showModal(modal: ModalType): void
+}
+
+const TopBar = ({ showModal }: Props) => {
 
     const user = useUser();
     const classes = useStyles();
-
-    const handleSignIn = async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        await firebase.auth().signInWithPopup(provider)
-    }
 
     return (
         <>
@@ -49,7 +49,7 @@ export const TopBar = () => {
                         </Typography>
                         {user.isGuest() ?
                             <div>
-                                <Button onClick={handleSignIn} color="inherit">Login</Button>
+                                <Button onClick={() => showModal(ModalType.SignIN)} color="inherit">Login</Button>
                             </div>
                             :
                             <DropDown items={[
@@ -75,4 +75,7 @@ export const TopBar = () => {
     );
 }
 
-
+export default connect(
+    null,
+    { showModal }
+)(TopBar);

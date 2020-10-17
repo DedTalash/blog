@@ -1,5 +1,5 @@
-import {UserAction, SET_USER} from "./actions";
-import User from "../models/User";
+import {UserAction, SET_USER} from "../actions";
+import User from "../../models/User";
 
 const initialUser = User.createEmpty();
 
@@ -13,7 +13,7 @@ export interface UserState {
     hash: string
 }
 
-export default function userReducer(
+export function userReducer(
     state: UserState = initialState, { type, user }: UserAction
 ): UserState
 {

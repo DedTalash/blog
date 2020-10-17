@@ -9,3 +9,25 @@ export type UserAction ={
 
 export const setUser = (user: User): UserAction =>
     ({type: SET_USER, user});
+
+
+export enum Modal {
+    SHOW = 'SHOW-MODAL', HIDE = 'HIDE-MODAL'
+}
+
+export enum ModalType {
+    SignUP, SignIN, ForgotPassword
+}
+
+export type ModalAction = {
+    type: Modal,
+    modal?: ModalType
+}
+
+export const closeModal = (): ModalAction => {
+    return { type: Modal.HIDE };
+}
+
+export const showModal = (modal: ModalType): ModalAction => {
+    return { type: Modal.SHOW, modal };
+}

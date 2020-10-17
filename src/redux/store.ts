@@ -1,12 +1,4 @@
-import {combineReducers, createStore} from "redux";
-import userReducer, {UserState} from "./userReducer";
-
-export type BlogReducers = {
-    userState: UserState
-}
-
-const reducers = combineReducers<BlogReducers>({
-    userState: userReducer
-});
+import {createStore} from "redux";
+import reducers from "./reducers";
 
 export default createStore(reducers);

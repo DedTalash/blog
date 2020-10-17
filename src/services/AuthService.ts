@@ -1,13 +1,17 @@
 import {db, firebase} from "../config/firebase";
 import User, {UserInterface} from "../models/User";
 import store from "../redux/store";
-import {setUser} from "../redux/actions";
+import {closeModal, setUser} from "../redux/actions";
 
 class AuthService
 {
 	subscribe()
 	{
 		return firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				store.dispatch(closeModal());
+			}
+
 			store.dispatch(
 				setUser(User.createFromFirebaseUser(user))
 			);

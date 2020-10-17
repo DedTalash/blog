@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import Main from "./view/pages/Main";
-import {TopBar} from "./view/TopBar";
 import {Router} from "@reach/router";
 import About from "./view/pages/About";
 import {Container} from "@material-ui/core";
@@ -14,6 +13,9 @@ import EditPost from "./view/pages/EditPost";
 import Users from "./view/pages/Users";
 import authService from "./services/AuthService";
 import useUser from "./utils/useUser";
+import {Footer} from "./view/components/Footer";
+import TopBar from "./view/components/TopBar";
+import {Modals} from "./view/components/Modals";
 
 export default function App()
 {
@@ -39,5 +41,7 @@ export default function App()
 				</Router>
 			</Container>
 		</Container>
+		<Modals />
+		<Footer />
 	</>;
 }

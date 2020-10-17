@@ -32,6 +32,8 @@ const useStyles = makeStyles((theme) =>
 				verticalAlign: 'middle',
 				display: 'block',
 				marginTop: '20px',
+				paddingBottom: 50,
+				position: 'relative',
 			},
 			cover: {
 				height: 280,
@@ -44,6 +46,11 @@ const useStyles = makeStyles((theme) =>
 			bodyPost: {
 				fontSize: '18px'
 			},
+			date: {
+				position: 'absolute',
+				bottom: 15,
+				right: 15
+			}
 		}
 	));
 
@@ -54,21 +61,21 @@ export const PostView = (props: Props) => {
 	return (
 		<Grid item className={classes.countCards}>
 			<Card className={classes.blogPost}  >
-			<CardMedia
-				className={classes.cover}
-				image={post.photo}
-			/>
-			<CardContent>
-				<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
-					<Link to={`/blog/${post.alias}`}>{post.title}</Link>
-				</Typography>
-				<Typography className={classes.bodyPost} variant="body1" color="textSecondary" gutterBottom={true}>
-					{post.description}
-				</Typography>
-				<Typography variant={"body2"} color="textSecondary" align={"right"}>
-					{Formatter.toDate(post.date)}
-				</Typography>
-			</CardContent>
+				<CardMedia
+					className={classes.cover}
+					image={post.photo}
+				/>
+				<CardContent>
+					<Typography className={classes.title} component="h5" variant="h5" gutterBottom={true}>
+						<Link to={`/blog/${post.alias}`}>{post.title}</Link>
+					</Typography>
+					<Typography className={classes.bodyPost} variant="body1" color="textSecondary" gutterBottom={true}>
+						{post.description}
+					</Typography>
+					<Typography className={classes.date} variant={"body2"} color="textSecondary" align={"right"}>
+						{Formatter.toDate(post.date)}
+					</Typography>
+				</CardContent>
 			</Card>
 		</Grid>
 	);
