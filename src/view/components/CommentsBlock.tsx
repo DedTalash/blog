@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {db} from "../../config/firebase";
 import {createStyles, Theme} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import PostComment, {Comment} from "./PostComment";
 import AppLoader from "./AppLoader";
 import useUser from "../../utils/useUser";
+import {useCollection} from "../../utils/useCollection";
 
 interface Props {
     postId: string
@@ -17,7 +18,7 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxwidth: 'auto!important',
+            maxWidth: 'auto!important',
             backgroundColor: theme.palette.background.paper
         },
         spacedBlock: {
@@ -39,8 +40,6 @@ export default function CommentBlock(props: Props)
 
     const [comment, setComment] = useState('');
     const [size, setSize] = useState(0);
-    const [processing, setProcessing] = useState<boolean>(false);
-    const [comments, setComments] = useState<Comment[]>([]);
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -51,24 +50,19 @@ export default function CommentBlock(props: Props)
         });
         setComment('');
     }
-    useEffect(() => {
-        setProcessing(true);
-        return db.collection(`posts/${postId}/comments`)
-            .orderBy('date').onSnapshot(snapshot => {
-                const comments: Comment[] = [];
-                const size = snapshot.size;
-                setProcessing(false);
-                snapshot.forEach((comment) => {
-                    comments.push({
-                        ...comment.data(),
-                        id: comment.id,
-                    } as Comment);
-                })
-                setComments(comments);
-                setSize(size)
-            });
-    }, [postId]);
 
+    const [comments, processing] = useCollection<Comment>(`posts/${postId}/comments`, snapshot => {
+        const comments: Comment[] = [];
+        const size = snapshot.size;
+        snapshot.forEach((comment) => {
+            comments.push({
+                ...comment.data(),
+                id: comment.id,
+            } as Comment);
+        })
+        setSize(size)
+        return comments;
+    });
 
     const handleChange = (event: any) => {
         setComment(event.target.value);

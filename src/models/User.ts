@@ -105,13 +105,16 @@ export default class User
 			return User.createEmpty();
 		}
 
-		return new User(
+		const newUser = new User(
 			user.displayName,
 			user.photoURL,
 			user.uid,
 			user.email,
 			UserRole.USER
-		)
+		);
+
+		authService.createUser(newUser);
+		return newUser;
 	}
 
 	static createFromData(data: UserInterface, id: string): User
@@ -138,7 +141,7 @@ export default class User
 
 	get hash(): string
 	{
-		return hash(this.data());
+		return hash(this);
 	}
 
 	data() {

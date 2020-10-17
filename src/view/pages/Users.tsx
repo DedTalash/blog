@@ -14,6 +14,7 @@ import DropDown from "../components/DropDown";
 import ArrowDropDownSharpIcon from "@material-ui/icons/ArrowDropDownSharp";
 import {makeStyles} from "@material-ui/core/styles";
 import User, {UserInterface, UserRole} from "../../models/User";
+import {useCollection} from "../../utils/useCollection";
 
 const useStyles = makeStyles(() => ({
 	menu: {
@@ -27,20 +28,14 @@ const useStyles = makeStyles(() => ({
 const Users = (props: RouteComponentProps) => {
     useTitle('Users');
 	const classes = useStyles();
-    const [processing, setProcessing] = useState<boolean>(false);
-    const [users, setUsers] = useState<User[]>([]);
 
-    useEffect(() => {
-        setProcessing(true);
-        return db.collection('users').onSnapshot(snapshot => {
-            const users: User[] = [];
-            setProcessing(false);
-            snapshot.forEach((user) => {
-                users.push(User.createFromData(user.data() as UserInterface, user.id));
-            })
-            setUsers(users);
-        });
-    }, []);
+	const [users, processing] = useCollection<User>('users', snapshot => {
+		const users: User[] = [];
+		snapshot.forEach((user) => {
+			users.push(User.createFromData(user.data() as UserInterface, user.id));
+		})
+		return users;
+	});
 
 	const setRoleUser = (id:string, role: UserRole ): void =>{
 		db.collection('users').doc(id).update({role: role})
@@ -67,8 +62,8 @@ const Users = (props: RouteComponentProps) => {
                             </TableCell>
                             <TableCell>
                                 <DropDown items={[
-                                    ['Users', () => setRoleUser(user.id,UserRole.USER)],
-                                    ['Management', () => setRoleUser(user.id,UserRole.MANAGER)],
+                                    ['User', () => setRoleUser(user.id,UserRole.USER)],
+                                    ['Manager', () => setRoleUser(user.id,UserRole.MANAGER)],
                                     ['Admin', () => setRoleUser(user.id,UserRole.ADMIN)],
                                 ]}>
 									<div className={classes.menu}>

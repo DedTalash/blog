@@ -15,6 +15,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import {Create, Delete} from "@material-ui/icons";
 import AppLoader from "../components/AppLoader";
+import {useCollection} from "../../utils/useCollection";
 
 const useStyles = makeStyles({
 	table: {
@@ -27,20 +28,13 @@ const Management = (props:  RouteComponentProps) => {
 
 	useTitle('Management');
 
-	const [processing, setProcessing] = useState<boolean>(false);
-	const [posts, setPosts] = useState<Post[]>([]);
-
-	useEffect(() => {
-		setProcessing(true);
-		return db.collection('posts').onSnapshot(snapshot => {
-			const posts: Post[] = [];
-			setProcessing(false);
-			snapshot.forEach((post) => {
-				posts.push(Post.createFromData(post.data() as PostInterface, post.id));
-			})
-			setPosts(posts);
-		});
-	}, []);
+	const [posts, processing] = useCollection<Post>('posts', snapshot => {
+		const posts: Post[] = [];
+		snapshot.forEach((post) => {
+			posts.push(Post.createFromData(post.data() as PostInterface, post.id));
+		})
+		return posts;
+	});
 
 	const classes = useStyles();
 

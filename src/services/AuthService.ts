@@ -12,8 +12,6 @@ class AuthService
 				setUser(User.createFromFirebaseUser(user))
 			);
 		});
-
-		// db.collection('users').doc(user.id).set(user, {merge: true})
 	}
 
 	logout()
@@ -29,8 +27,19 @@ class AuthService
 	userSubscribe(id: string, model: User)
 	{
 		return db.collection('users').doc(id).onSnapshot(user => {
-			model.update(user.data() as UserInterface);
-			store.dispatch(setUser(model));
+			if (user.exists) {
+				model.update(user.data() as UserInterface);
+				store.dispatch(setUser(model));
+			}
+		});
+	}
+
+	createUser(model: User)
+	{
+		db.collection('users').doc(model.id).get().then(record => {
+			if (!record.exists) {
+				db.collection('users').doc(model.id).set(model.data());
+			}
 		});
 	}
 

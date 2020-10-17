@@ -76,17 +76,18 @@ const useStyles = makeStyles((theme: Theme) =>
                 setCanLike(canLike);
             });
         }, [props.path, props.user]);
-    return (
-        <div>
-            <div className={classes.likes}>
-                {likesValue}
-                {props.user && canLike && <>
-                    <ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
-                    <ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
-                </>}
+
+        return (
+            <div>
+                <div className={classes.likes}>
+                    {likesValue}
+                    {props.user && canLike && <>
+                        <ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
+                        <ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
+                    </>}
+                </div>
             </div>
-        </div>
-    );
+        );
 };
 
 export default Likes;
