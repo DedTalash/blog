@@ -32,8 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		textField: {
 			marginLeft: theme.spacing(1),
 			marginRight: theme.spacing(1),
-			width: '25ch',
+			width: '100%',
 		},
+
 	}),
 );
 
@@ -44,7 +45,6 @@ export default function PostEditor({post}: Props)
 
 	// ###################
 	const contentBlock = htmlToDraft(post.content);
-
 	const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
 	const editorState = EditorState.createWithContent(contentState);
 	// ###################
@@ -108,15 +108,17 @@ export default function PostEditor({post}: Props)
 						margin="dense"
 						variant="filled"
 					/>
-					<TextField variant="outlined"
-					           className={classes.textField}
-					           fullWidth
-					           rows={4}
-					           multiline
-					           aria-label="My comment"
-					           value={description}
-					           placeholder="Maximum 4 rows"
-					           onChange={(event) => setDescription(event.target.value)}
+					<TextField
+						margin="normal"
+						variant="filled"
+						className={classes.textField}
+						fullWidth
+						rows={4}
+						multiline
+						aria-label="My comment"
+						value={description}
+						placeholder="Maximum 4 rows"
+						onChange={(event) => setDescription(event.target.value)}
 					/>
 
 				</div>

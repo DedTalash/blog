@@ -91,14 +91,14 @@ export default function CommentBlock(props: Props)
                                    placeholder="Maximum 4 rows"
                                    onChange={handleChange}/>
                         <div className={classes.buttonContainer}>
-                            <Button
+                            { user.id && <Button
                                 variant="contained"
                                 color="primary"
                                 type="submit"
                                 size="large"
                             >
                                 Post
-                            </Button>
+                            </Button>}
                         </div>
                     </form>
                 </Container>

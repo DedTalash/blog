@@ -61,7 +61,7 @@ export default function Post({postAlias}: Props & RouteComponentProps)
             <h1>{post.title}</h1>
             <CardMedia className={classes.photo} image={post.photo}/>
             <div dangerouslySetInnerHTML={{__html: post.content}}/>
-            <Likes user={user} path={`posts/${post.id}/likes`}/>
+            {user.id && <Likes user={user} path={`posts/${post.id}/likes`}/>}
         </Container>
         <Container>
             <CommentBlock postId={post.id}/>

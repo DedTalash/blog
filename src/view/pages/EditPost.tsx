@@ -4,13 +4,14 @@ import PostEditor from "../components/PostEditor";
 import {db} from "../../config/firebase";
 import Post, {PostInterface} from "../../models/Post";
 import AppLoader from "../components/AppLoader";
+import {useTitle} from "../../utils/useTitle";
 
 interface Props {
 	postId?: string
 }
 
 const EditPost = ({postId}: Props & RouteComponentProps) => {
-
+	useTitle('Edit Post');
 	const [processing, setProcessing] = useState<boolean>(true);
 	const [post, setPost] = useState<Post|null>(null);
 

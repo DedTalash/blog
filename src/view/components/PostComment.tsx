@@ -114,8 +114,8 @@ export default function PostComment(props: Props)
 				<Typography className={classes.commentText}>
 					{props.comment.comment}
 				</Typography>
-				<Likes path={`posts/${props.postId}/comments/${props.comment.id}/likes`}
-					   user={user}/>
+				{user.id && <Likes path={`posts/${props.postId}/comments/${props.comment.id}/likes`}
+						user={user}/>}
 			</div>
 		</div>
 	);

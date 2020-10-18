@@ -4,6 +4,7 @@ import {db} from "../../config/firebase";
 import {makeStyles} from "@material-ui/core/styles";
 import {createStyles, Theme} from "@material-ui/core";
 import User from "../../models/User";
+import Typography from "@material-ui/core/Typography";
 
 export interface Comment {
     id: string,
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
         return (
             <div>
                 <div className={classes.likes}>
-                    {likesValue}
+                   <Typography className={classes.buttonContainer} > Likes {likesValue}</Typography>
                     {props.user && canLike && <>
                         <ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
                         <ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
