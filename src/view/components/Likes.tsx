@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
             <div>
                 <div className={classes.likes}>
                    <Typography className={classes.buttonContainer} > Likes {likesValue}</Typography>
-                    {props.user && canLike && <>
+                    {!props.user.isGuest() && canLike && <>
                         <ThumbUp className={classes.buttonContainer} onClick={handleLike.bind(null, true)}/>
                         <ThumbDown className={classes.buttonContainer} onClick={handleLike.bind(null, false)}/>
                     </>}

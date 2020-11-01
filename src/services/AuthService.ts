@@ -23,11 +23,6 @@ class AuthService
 		firebase.auth().signOut()
 	}
 
-	signIn()
-	{
-
-	}
-
 	userSubscribe(id: string, model: User)
 	{
 		return db.collection('users').doc(id).onSnapshot(user => {
@@ -37,7 +32,10 @@ class AuthService
 			}
 		});
 	}
+	signIn()
+	{
 
+	}
 	createUser(model: User)
 	{
 		db.collection('users').doc(model.id).get().then(record => {
@@ -45,11 +43,6 @@ class AuthService
 				db.collection('users').doc(model.id).set(model.data());
 			}
 		});
-	}
-
-	signUp()
-	{
-
 	}
 }
 

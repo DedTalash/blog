@@ -77,30 +77,31 @@ export default function CommentBlock(props: Props)
                         <PostComment key={index} postId={postId} comment={comment}/>
                     )}
 
-                    <Divider variant="inset"/>
+                    {!user.isGuest() && <div>
+                        <Divider variant="inset"/>
 
-                    <form autoComplete="off" onSubmit={handleSubmit}>
-                        <TextField label="Enter your comment"
-                                   variant="outlined"
-                                   className={classes.spacedBlock}
-                                   fullWidth
-                                   rows={4}
-                                   multiline
-                                   aria-label="My comment"
-                                   value={comment}
-                                   placeholder="Maximum 4 rows"
-                                   onChange={handleChange}/>
-                        <div className={classes.buttonContainer}>
-                            { user.id && <Button
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                size="large"
-                            >
-                                Post
-                            </Button>}
-                        </div>
-                    </form>
+                        <form autoComplete="off" onSubmit={handleSubmit}>
+                            <TextField label="Enter your comment"
+                                       variant="outlined"
+                                       className={classes.spacedBlock}
+                                       fullWidth
+                                       rows={4}
+                                       multiline
+                                       aria-label="My comment"
+                                       value={comment}
+                                       placeholder="Maximum 4 rows"
+                                       onChange={handleChange}/>
+                            <div className={classes.buttonContainer}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    size="large"
+                                >
+                                    Post
+                                </Button>
+                            </div>
+                        </form></div>}
                 </Container>
             </AppLoader>
         </>

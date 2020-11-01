@@ -11,6 +11,9 @@ export const setUser = (user: User): UserAction =>
     ({type: SET_USER, user});
 
 
+
+
+
 export enum Modal {
     SHOW = 'SHOW-MODAL', HIDE = 'HIDE-MODAL'
 }
